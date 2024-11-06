@@ -1,10 +1,11 @@
 ﻿using Recruitment.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recruitment.Models
 {
     public class Recruitment
     {
-        public EventType EventType { get; set; }
+        [Key]
         public decimal ErpDepartmentPositionID { get; set; }
         public decimal ErpEmployeeCategoryID { get; set; }
         public string PositionName { get; set; }

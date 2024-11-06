@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recruitment.Common;
+using Recruitment.Dtos;
 using Recruitment.Enums;
 using Recruitment.Models;
 using Recruitment.Services;
@@ -22,8 +23,8 @@ namespace Recruitment.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateRecruitments([FromBody] List<string> jsonData)
         {
-            List<Models.Recruitment> Dtos = new();
-            jsonData.ForEach(c => { Dtos.Add(JsonSerializer.Deserialize<Models.Recruitment>(c)); });
+            List<RecruitmentDto> Dtos = new();
+            jsonData.ForEach(c => { Dtos.Add(JsonSerializer.Deserialize<RecruitmentDto>(c)); });
             var ExistScheduleIds = await _recruitmentService.GetRecruitmentIds();
 
             foreach (var recruitment in Dtos)
@@ -33,7 +34,7 @@ namespace Recruitment.Controllers
                     switch (recruitment.EventType)
                     {
                         case EventType.Modified:
-                            await _recruitmentService.UpdateRecruitment(recruitment);
+                            //await _recruitmentService.UpdateRecruitment(recruitment);
                             break;
                         case EventType.Deleted:
                             {
@@ -49,7 +50,7 @@ namespace Recruitment.Controllers
                 {
                     if ( recruitment.EventType == EventType.Added)
                     {
-                        await _recruitmentService.CreateRecruitment(recruitment);
+                        //await _recruitmentService.CreateRecruitment(recruitment);
                         ExistScheduleIds.Add(recruitment.ErpDepartmentPositionID);
                     }
                 }
