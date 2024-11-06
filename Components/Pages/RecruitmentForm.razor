@@ -1,166 +1,196 @@
 ﻿@page "/Recruitment/{link}"
+@inject IRecruitmentService _service;
+@inject ISetupKeyValueService _setupService;
+
 <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-3 text-center ">
-                    <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="..." />
-                </div>
-                <div class="col-md-9">
-                    <div class="card-body">
-                        <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">Job: </span><span class="fs-5 fw-bold text-dark">@Recruitment.PositionName</span> </h5>
-                        <h6 class="card-text text-info m-0 p-0">Job Summary: </h6>
+    <div class="row g-0">
+        <div class="col-md-3 text-center ">
+            <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="..." />
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">Job: </span><span class="fs-5 fw-bold text-dark">@Recruitment.PositionName</span> </h5>
+                <h6 class="card-text text-info m-0 p-0">Job Summary: </h6>
                 @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
                 {
 
                     <p>@Recruitment.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
                 }
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="d-flex justify-content-center">
-            <div class="col-md-10 m-auto">
-                <div class="card m-0 pt-0">
-                    <div class="card-header m-0 mb-3 bg-primary text-white">
-                        @Recruitment.PositionName
-                    </div>
-                    <EditForm Model="Applicant">
+<div class="d-flex justify-content-center">
+    <div class="col-md-10 m-auto">
+        <div class="card m-0 pt-0">
+            <div class="card-header m-0 mb-3 bg-primary text-white">
+                @Recruitment.PositionName
+            </div>
+            <EditForm Model="Applicant">
 
-                    <div class="p-3">
-                        @if(IsDoctor)
-                        {
-                            <h6 class="text-primary">المعلومات الاساسية</h6>
-                        }
-                        <fieldset class="p-2 mb-2 mt-0 ">
-                            <legend class="d-inline mr-3 mb-0"></legend>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="FirstName">First Name <b style="color: red">*</b></label>
+                <div class="p-3">
+                    @if (IsDoctor)
+                    {
+                        <h6 class="text-primary">Personal Information</h6>
+                    }
+                    <fieldset class="p-2 mb-2 mt-0 ">
+                        <legend class="d-inline mr-3 mb-0"></legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group  mb-3 row">
+                                    <label class="col-sm-12 m-0 d" for="FirstName">First Name <b style="color: red">*</b></label>
 
-                                        <div class="col-sm-12 input-control ">
-                                            <InputText @bind-Value=Applicant.FirstName/>
-                                            <ValidationMessage For="@(()=>Applicant.FirstName)" ></ValidationMessage>
-                                        </div>
+                                    <div class="col-sm-12 input-control ">
+                                        <InputText @bind-Value=Applicant.FirstName />
+                                        <ValidationMessage For="@(()=>Applicant.FirstName)"></ValidationMessage>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="SecondName">Second Name <b style="color: red">*</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group  mb-3 row">
+                                    <label class="col-sm-12 m-0 d" for="SecondName">Second Name <b style="color: red">*</b></label>
 
-                                        <div class="col-sm-12 input-control ">
-                                            <InputText @bind-Value=Applicant.SecondName />
-                                            <ValidationMessage For="@(()=>Applicant.SecondName)"></ValidationMessage>
-                                        </div>
+                                    <div class="col-sm-12 input-control ">
+                                        <InputText @bind-Value=Applicant.SecondName />
+                                        <ValidationMessage For="@(()=>Applicant.SecondName)"></ValidationMessage>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="ThirdName">
-                                            Third Name
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group  mb-3 row">
+                                    <label class="col-sm-12 m-0 d" for="ThirdName">
+                                        Third Name
                                         @if (IsDoctor)
                                         {
                                             <b style="color: red">*</b>
                                         }
-                                        </label>
-                                        <div class="col-sm-12 input-control ">
-                                            <InputText @bind-Value=Applicant.ThirdName />
-                                            <ValidationMessage For="@(()=>Applicant.ThirdName)"></ValidationMessage>
-                                        </div>
+                                    </label>
+                                    <div class="col-sm-12 input-control ">
+                                        <InputText @bind-Value=Applicant.ThirdName />
+                                        <ValidationMessage For="@(()=>Applicant.ThirdName)"></ValidationMessage>
                                     </div>
                                 </div>
-                                @if(!IsDoctor)
-                                {
-                                    <div class="col-md-6">
-
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="Title">Recruitment Title</label>
-                                            <div class="col-sm-12 input-control ">
-                                                <InputText @bind-Value=Applicant.Title />
-                                                <ValidationMessage For="@(()=>Applicant.Title)"></ValidationMessage>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
+                            </div>
+                            @if (!IsDoctor)
+                            {
                                 <div class="col-md-6">
+
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="PhoneNumber">Phone No<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="Title">Recruitment Title</label>
                                         <div class="col-sm-12 input-control ">
+                                            <InputText @bind-Value=Applicant.Title />
+                                            <ValidationMessage For="@(()=>Applicant.Title)"></ValidationMessage>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                            <div class="col-md-6">
+                                <div class="form-group  mb-3 row">
+                                    <label class="col-sm-12 m-0 d" for="PhoneNumber">Phone No<b style="color: red">*</b></label>
+                                    <div class="col-sm-12 input-control ">
                                         <InputText @bind-Value=Applicant.PhoneNumber />
                                         <ValidationMessage For="@(()=>Applicant.PhoneNumber)"></ValidationMessage>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (!IsDoctor)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="Email">Email Address<b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            <InputText @bind-Value=Applicant.Email />
+                                            <ValidationMessage For="@(()=>Applicant.Email)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
-                                @if(!IsDoctor)
-                                {
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="Email">Email Address<b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                <InputText @bind-Value=Applicant.Email />
-                                                <ValidationMessage For="@(()=>Applicant.Email)"></ValidationMessage>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.GenderID)"></ValidationMessage>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="BirthDate">Birth Date<b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                <InputDate @bind-Value=Applicant.BirthDate></InputDate>
-                                                <ValidationMessage For="@(()=>Applicant.BirthDate)"></ValidationMessage>
 
-                                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            @if (genders.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.GenderID" class="form-select">
+                                                    <option value="0">Select Gender</option>x
+                                                    @foreach (var gender in genders)
+                                                    {
+                                                        <option value="@gender.Id">@gender.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
+                                            <ValidationMessage For="@(()=>Applicant.GenderID)"></ValidationMessage>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="MartialStatusID">Martial Status<b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpMartialStatusID)"></ValidationMessage>
-                                            </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="BirthDate">Birth Date<b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            <InputDate @bind-Value=Applicant.BirthDate></InputDate>
+                                            <ValidationMessage For="@(()=>Applicant.BirthDate)"></ValidationMessage>
+
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpMilitryStatusID)"></ValidationMessage>
-                                            </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="MartialStatusID">Martial Status<b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            @if (martialStatus.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpMartialStatusID" class="form-select">
+                                                    <option value="0">Select Martial Status</option>x
+                                                    @foreach (var item in martialStatus)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
+                                            <ValidationMessage For="@(()=>Applicant.ErpMartialStatusID)"></ValidationMessage>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group  mb-3 row">
-                                            <label class="col-sm-12 m-0 d" for="Address">Address<b style="color: red">*</b></label>
-                                            <div class="col-sm-12 input-control ">
-                                                <InputText @bind-Value=Applicant.Address />
-                                                <ValidationMessage For="@(()=>Applicant.Address)"></ValidationMessage>
-                                            </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            @if (militaryStatus.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpMilitryStatusID" class="form-select">
+                                                    <option value="0">Select Militry Status</option>x
+                                                    @foreach (var item in militaryStatus)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
+                                            <ValidationMessage For="@(()=>Applicant.ErpMilitryStatusID)"></ValidationMessage>
                                         </div>
                                     </div>
-                                }
-                            </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group  mb-3 row">
+                                        <label class="col-sm-12 m-0 d" for="Address">Address<b style="color: red">*</b></label>
+                                        <div class="col-sm-12 input-control ">
+                                            <InputText @bind-Value=Applicant.Address />
+                                            <ValidationMessage For="@(()=>Applicant.Address)"></ValidationMessage>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
 
 
 
-                        </fieldset>
+                    </fieldset>
                     @if (IsDoctor)
                     {
-                        
+
                         <h6 class="text-primary mt-3">DoctorDegree</h6>
                         <fieldset class="card p-2 my-2 py-4 ">
                             <legend class="d-inline mr-3 mb-0"></legend>
@@ -169,8 +199,8 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="GraduationYear">Year Of Graduation<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            <InputDate @bind-Value=Applicant.GraduationYear />
-                                            <ValidationMessage For="@(()=>Applicant.GraduationYear)"></ValidationMessage>
+                                            <InputDate @bind-Value=GradYear />
+                                            @* <ValidationMessage For="@(()=>Applicant.GraduationYear)"></ValidationMessage> *@
                                         </div>
                                     </div>
                                 </div>
@@ -179,7 +209,7 @@
                                         <label class="col-sm-12 m-0 d" for="University">University<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpUniversityID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpUniversityID)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +219,7 @@
                                         <label class="col-sm-12 m-0 d" for="DoctorDegreeID">Doctor Degree<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpDoctorDegreeID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpDoctorDegreeID)"></ValidationMessage>
                                         </div>
                                     </div>
 
@@ -213,7 +243,7 @@
                                         <label class="col-sm-12 m-0 d" for="SpecialtyID">SpecialtyID  <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpSpecialtyID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpSpecialtyID)"></ValidationMessage>
                                         </div>
                                     </div>
 
@@ -223,7 +253,7 @@
                                         <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">Other Specialty </label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpOtherSpecialtyID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpOtherSpecialtyID)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +264,7 @@
                                         <label class="col-sm-12 m-0 d" for="BranchID">Branch <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpBranchID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpBranchID)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
@@ -244,7 +274,7 @@
                                         <label class="col-sm-12 m-0 d" for="AreaCityID">Residence Area / Governate <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @* <InputSelect></InputSelect> *@
-                                                <ValidationMessage For="@(()=>Applicant.ErpAreaCityID)"></ValidationMessage>
+                                            <ValidationMessage For="@(()=>Applicant.ErpAreaCityID)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
@@ -262,30 +292,48 @@
 
                         </fieldset>
                     }
-                        <div class="form-group d-flex justify-content-start mt-5  mb-3 ">
-                            <label class="m-0 " for="CV">CV</label>
+                    <div class="form-group d-flex justify-content-start mt-5  mb-3 ">
+                        <label class="m-0 " for="CV">CV</label>
 
-                            <div class="d-flex flex-row align-middle">
-                                <InputFile ></InputFile>
-                                <small class="d-block me-2 ms-1" style="color: red">CV Maximum Size</small>
-                                <ValidationMessage For="@(()=>Applicant.CV)"></ValidationMessage>
-                            </div>
-
+                        <div class="d-flex flex-row align-middle">
+                            <InputFile></InputFile>
+                            <small class="d-block me-2 ms-1" style="color: red">CV Maximum Size</small>
+                            <ValidationMessage For="@(()=>Applicant.CV)"></ValidationMessage>
                         </div>
-                        <div class="form-group  my-5 row">
 
-                            <div class="col-sm-8 mx-auto ">
-                                <input type="submit" value="Send" class="btn btn-success btn-lg w-100" />
-                            </div>
+                    </div>
+                    <div class="form-group  my-5 row">
+
+                        <div class="col-sm-8 mx-auto ">
+                            <input type="submit" value="Send" class="btn btn-success btn-lg w-100" />
                         </div>
                     </div>
-                    </EditForm>
                 </div>
-            </div>
+            </EditForm>
         </div>
+    </div>
+</div>
 
 @code {
-    public Applicant Applicant { get; set; }
+    public Applicant Applicant { get; set; } = new();
+    public DateTime GradYear { get; set; }
     public Models.Recruitment Recruitment { get; set; }
-    public bool IsDoctor { get; set; } 
+    public List<Gender> genders { get; set; }
+    public List<MilitaryStatus> militaryStatus { get; set; }
+    public List<MartialStatus> martialStatus { get; set; }
+    public bool IsDoctor { get; set; } = true;
+    public decimal PositionDepartmentID { get; set; }
+    [Parameter]
+    public string link { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(link))
+        {
+            Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
+            genders = await _setupService.GetGenderAsync();
+            militaryStatus = await _setupService.GetMilitaryStatusAsync();
+            martialStatus = await _setupService.GetMartialStatusAsync();
+        }
+    }
 }
