@@ -2,7 +2,7 @@
 {
     public class Applicant
     {
-        public decimal ApiApplicantId { get; set; }
+        public decimal Id { get; set; }
         public decimal ErpEmployeeCategoryID { get; set; }
         public decimal? ErpDepartmentPositionID { get; set; }
         public string FirstName { get; set; }

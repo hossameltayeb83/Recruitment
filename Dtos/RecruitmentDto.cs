@@ -5,8 +5,8 @@ namespace Recruitment.Dtos
     public class RecruitmentDto
     {
         public EventType EventType { get; set; }
-        public decimal DepartmentPositionID { get; set; }
-        public decimal EmployeeCategoryID { get; set; }
+        public decimal ErpDepartmentPositionID { get; set; }
+        public decimal ErpEmployeeCategoryID { get; set; }
         public string PositionName { get; set; }
         public string PositionSummary { get; set; }
         public string PositionDetails { get; set; }

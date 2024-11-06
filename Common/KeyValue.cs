@@ -2,7 +2,7 @@
 {
     public abstract class SetupKeyValue
     {
-        public decimal ErpId { get; set; }
+        public decimal Id { get; set; }
         public string Value { get; set; }
     }
 }
