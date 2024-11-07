@@ -129,7 +129,7 @@
 
     private void NavigateToRecruitmentForm()
     {
-        NavigationManager.NavigateTo($"/Recruitment/{link}");
+        NavigationManager.NavigateTo($"/Recruitment/{Uri.EscapeDataString(link)}");
         StateHasChanged();
     }
 }

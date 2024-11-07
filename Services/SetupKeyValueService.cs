@@ -11,7 +11,9 @@ namespace Recruitment.Services
     {
         private Dictionary<Document, Type> _Documents = new Dictionary<Document, Type>
         {
-            {Document.Gender,typeof(Gender)}
+            {Document.Gender,typeof(Gender)},
+            {Document.University,typeof(University)},
+            {Document.Branch,typeof(Branch)}
         };
 
         private readonly ApplicationDbContext _context;

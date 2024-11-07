@@ -116,7 +116,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Genders.Count() > 0)
+                                            @if (Genders !=null && Genders.Count() > 0)
                                             {
                                                 <select @bind="Applicant.GenderID" class="form-select">
                                                     <option value="0">Select Gender</option>
@@ -146,7 +146,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="MartialStatusID">Martial Status<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (MartialStatuses.Count() > 0)
+                                            @if (MartialStatuses != null && MartialStatuses.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpMartialStatusID" class="form-select">
                                                     <option value="0">Select Martial Status</option>
@@ -165,7 +165,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (MilitaryStatuses.Count() > 0)
+                                            @if (MilitaryStatuses!=null &&MilitaryStatuses.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpMilitryStatusID" class="form-select">
                                                     <option value="0">Select Militry Status</option>
@@ -214,7 +214,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="University">University<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Universities.Count() > 0)
+                                            @if (Universities !=null && Universities.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpUniversityID" class="form-select">
                                                     <option value="0">Select University</option>
@@ -233,7 +233,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="DoctorDegreeID">Doctor Degree<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (DoctorDegrees.Count() > 0)
+                                            @if (DoctorDegrees != null && DoctorDegrees.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpDoctorDegreeID" class="form-select">
                                                     <option value="0">Select Degree</option>
@@ -263,7 +263,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="SpecialtyID">SpecialtyID  <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Specialities.Count() > 0)
+                                            @if (Specialities != null && Specialities.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpSpecialtyID" class="form-select">
                                                     <option value="0">Select Speciality</option>
@@ -293,7 +293,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="BranchID">Branch <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Branches.Count() > 0)
+                                            @if (Branches != null && Branches.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpBranchID" class="form-select">
                                                     <option value="0">Select Branch</option>
