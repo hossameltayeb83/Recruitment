@@ -1,4 +1,6 @@
-﻿using Recruitment.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using Recruitment.Data;
+using Recruitment.Dtos;
 using Recruitment.Enums;
 
 namespace Recruitment.Services
@@ -60,9 +62,10 @@ namespace Recruitment.Services
                 LinkExpiryDate = DateTime.Now.AddMonths(1)
             }
         };
-        public List<decimal> GetRecruitmentIds()
+        private readonly ApplicationDbContext _context;
+        public RecruitmentService(ApplicationDbContext context)
         {
-            return dtos.Select(e => e.ErpDepartmentPositionID).ToList();
+            _context = context;
         }
         public decimal? ExtractPositionDepartmentFromLink(string link)
         {
@@ -76,14 +79,10 @@ namespace Recruitment.Services
         //}
 
 
-        public Task ChangeSentToErp(List<decimal> ids)
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<List<decimal>> IRecruitmentService.GetRecruitmentIds()
+        public async Task<List<decimal>> GetRecruitmentIds()
         {
-            throw new NotImplementedException();
+           return await _context.Recruitments.Select(e => e.ErpDepartmentPositionID).ToListAsync();
         }
 
         public async Task<Models.Recruitment> GetRecruitmentFromLinkAsync(string link)
@@ -91,20 +90,33 @@ namespace Recruitment.Services
             decimal.TryParse(link, out var departmentPositionID);
             return await Task.FromResult(dtos.FirstOrDefault(e => e.ErpDepartmentPositionID == departmentPositionID));
         }
-
-        public Task DeleteRecruitment(decimal recruitmentId)
+        public async Task HandleRecruitmentsSentFromErp(List<RecruitmentDto> recruitments)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateRecruitment(Models.Recruitment recruitment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task CreateRecruitment(Models.Recruitment recruitment)
-        {
-            throw new NotImplementedException();
+            foreach (var dto in recruitments)
+            {
+                if (dto.EventType == EventType.Added)
+                {
+                    var recruitmentToAdd = new Models.Recruitment(dto);
+                    _context.Recruitments.Add(recruitmentToAdd);
+                }
+                else
+                {
+                    var recruitmentToModify = await _context.Recruitments.FindAsync(dto.ErpDepartmentPositionID);
+                    if (recruitmentToModify != null)
+                    {
+                        if (dto.EventType == EventType.Modified)
+                        {
+                            //recruitmentToModify
+                            _context.Recruitments.Update(recruitmentToModify);
+                        }
+                        if (dto.EventType == EventType.Deleted)
+                        {
+                            _context.Recruitments.Remove(recruitmentToModify);
+                        }
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

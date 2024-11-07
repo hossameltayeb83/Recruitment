@@ -6,5 +6,6 @@ namespace Recruitment.Services
     {
         Task<List<Applicant>> GetAllApplicants();
 
+        public Task ChangeSentToErp(List<decimal> ids);
     }
 }

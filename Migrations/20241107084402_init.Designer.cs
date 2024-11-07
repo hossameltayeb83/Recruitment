@@ -11,7 +11,7 @@ using Recruitment.Data;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241106090221_init")]
+    [Migration("20241107084402_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -97,6 +97,9 @@ namespace Recruitment.Migrations
                     b.Property<string>("SecondName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("SentToErp")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ThirdName")
                         .IsRequired()
@@ -207,7 +210,6 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationMission")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationName")
@@ -215,11 +217,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationVision")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionDetails")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionName")
@@ -227,11 +227,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionRequirements")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionSummary")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ErpDepartmentPositionID");

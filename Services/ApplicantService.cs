@@ -1,12 +1,29 @@
-﻿using Recruitment.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Recruitment.Data;
+using Recruitment.Models;
 
 namespace Recruitment.Services
 {
     public class ApplicantService : IApplicantService
     {
-        public Task<List<Applicant>> GetAllApplicants()
+        private readonly ApplicationDbContext _context;
+        public ApplicantService(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task ChangeSentToErp(List<decimal> ids)
+        {
+           var applicants= await _context.Applicants.Where(e => ids.Contains(e.Id)).ToListAsync();
+           foreach(var applicant in applicants)
+           {
+                applicant.SentToErp = true;
+           }
+           await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Applicant>> GetAllApplicants()
+        {
+            return await _context.Applicants.Where(e => e.SentToErp==false).ToListAsync();
         }
     }
 }

@@ -13,8 +13,11 @@ namespace Recruitment
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllers();
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddCors(
+                options => options.AddPolicy("Erp", policy => policy.WithOrigins(builder.Configuration["Erp"]!).AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed(policy => true)));
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -33,10 +36,11 @@ namespace Recruitment
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("Erp");
 
             app.UseStaticFiles();
             app.UseAntiforgery();
-
+            app.MapControllers();
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
 

@@ -39,7 +39,8 @@ namespace Recruitment.Migrations
                     ErpOtherSpecialtyID = table.Column<decimal>(type: "TEXT", nullable: true),
                     DoctorDegreeDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ApplicantNotes = table.Column<string>(type: "TEXT", nullable: false),
-                    IsNew = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsNew = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SentToErp = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,12 +126,12 @@ namespace Recruitment.Migrations
                     ErpDepartmentPositionID = table.Column<decimal>(type: "TEXT", nullable: false),
                     ErpEmployeeCategoryID = table.Column<decimal>(type: "TEXT", nullable: false),
                     PositionName = table.Column<string>(type: "TEXT", nullable: false),
-                    PositionSummary = table.Column<string>(type: "TEXT", nullable: false),
-                    PositionDetails = table.Column<string>(type: "TEXT", nullable: false),
-                    PositionRequirements = table.Column<string>(type: "TEXT", nullable: false),
+                    PositionSummary = table.Column<string>(type: "TEXT", nullable: true),
+                    PositionDetails = table.Column<string>(type: "TEXT", nullable: true),
+                    PositionRequirements = table.Column<string>(type: "TEXT", nullable: true),
                     OrganizationName = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationVision = table.Column<string>(type: "TEXT", nullable: false),
-                    OrganizationMission = table.Column<string>(type: "TEXT", nullable: false),
+                    OrganizationVision = table.Column<string>(type: "TEXT", nullable: true),
+                    OrganizationMission = table.Column<string>(type: "TEXT", nullable: true),
                     LinkExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

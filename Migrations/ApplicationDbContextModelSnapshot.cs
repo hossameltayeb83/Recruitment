@@ -95,6 +95,9 @@ namespace Recruitment.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("SentToErp")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ThirdName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -204,7 +207,6 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationMission")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationName")
@@ -212,11 +214,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrganizationVision")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionDetails")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionName")
@@ -224,11 +224,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionRequirements")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PositionSummary")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ErpDepartmentPositionID");
