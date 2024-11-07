@@ -10,97 +10,100 @@
             <div class="col-md-9">
                 <div class="card-body">
                     <h6 class="card-title text-info fs-4 fw-bold"><span style="display: inline-flex">Job: </span><span class=" text-dark">@Recruitment.PositionName</span> </h6>
-                    <h5 class="card-title text-info fs-6 fw-bold"><span style="display: inline-flex">Organization Name: </span>
-                        <span class=" text-dark">@Recruitment.OrganizationName</span> 
+                    <h5 class="card-title text-info fs-6 fw-bold">
+                        <span style="display: inline-flex">Organization Name: </span>
+                        <span class=" text-dark">@Recruitment.OrganizationName</span>
                     </h5>
+                    @if (Recruitment != null)
+                    {
+                        @if (Recruitment.LinkExpiryDate > DateTime.Now)
+                        {
+                            <div class=" ">
+                                <button class="btn btn-success btn-md" @onclick="NavigateToRecruitmentForm">Apply</button>
+                            </div>
 
-                @if (Recruitment.LinkExpiryDate > DateTime.Now)
-                {
-                    <div class=" ">
-                        <input type="submit" value="Apply" class="btn btn-success btn-md" />
-                    </div>
-                        
-                }
+                        }
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <div class="row m-0 p-0">
-        <div class="col-md-8 ">
-            <div class="card mb-3 p-3">
-                <div class="col">
-                    <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Summary:</h3>
-                    @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
-                    {
-                    
-                            <p>@Recruitment.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
-                    }
-                </div>
+<div class="row m-0 p-0">
+    <div class="col-md-8 ">
+        <div class="card mb-3 p-3">
+            <div class="col">
+                <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Summary:</h3>
+                @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
+                {
+
+                    <p>@Recruitment.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
+                }
             </div>
-
-            <div class="card mb-3 p-3">
-
-
-                <div class="col">
-                    <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Recruitment:</h3>
-            @if (!string.IsNullOrEmpty(Recruitment.PositionDetails))
-            {
-
-                <p>@Recruitment.PositionDetails.Replace(Environment.NewLine, "<br>")</p>
-            }
-                </div>
-            </div>
-
-            <div class="card mb-3 p-3">
-
-
-                <div class="col">
-                    <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Requirements: </h3>
-            @if (!string.IsNullOrEmpty(Recruitment.PositionRequirements))
-            {
-
-                <p>@Recruitment.PositionRequirements.Replace(Environment.NewLine, "<br>")</p>
-            }
-                </div>
-            </div>
-            @if (Recruitment.LinkExpiryDate > DateTime.Now)
-            {
-            <div class="mb-5 ">
-                <input type="submit" value="Apply" class="btn btn-success btn-lg btn-md" />
-            </div>
-        
-            }
         </div>
+
+        <div class="card mb-3 p-3">
+
+
+            <div class="col">
+                <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Recruitment:</h3>
+                @if (!string.IsNullOrEmpty(Recruitment.PositionDetails))
+                {
+
+                    <p>@Recruitment.PositionDetails.Replace(Environment.NewLine, "<br>")</p>
+                }
+            </div>
+        </div>
+
+        <div class="card mb-3 p-3">
+
+
+            <div class="col">
+                <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">Job Requirements: </h3>
+                @if (!string.IsNullOrEmpty(Recruitment.PositionRequirements))
+                {
+
+                    <p>@Recruitment.PositionRequirements.Replace(Environment.NewLine, "<br>")</p>
+                }
+            </div>
+        </div>
+        @if (Recruitment.LinkExpiryDate > DateTime.Now)
+        {
+            <div class="mb-5 ">
+                <button class="btn btn-success btn-md" @onclick="NavigateToRecruitmentForm">Apply</button>
+            </div>
+
+        }
+    </div>
 
     <div class="col-md-4 ">
-        <div class="card mb-3  pt-0" >
+        <div class="card mb-3  pt-0">
             <div class="card-header mt-0" style="background-color: #f2f2f2;">
                 <h6 class="text-dark  m-0">Vission:</h6>
-                </div>
-        <div class="" style="height: 160px; overflow-y:auto; padding:5px 10px;">
-    @if (!string.IsNullOrEmpty(Recruitment.OrganizationVision))
-    {
+            </div>
+            <div class="" style="height: 160px; overflow-y:auto; padding:5px 10px;">
+                @if (!string.IsNullOrEmpty(Recruitment.OrganizationVision))
+                {
 
-        <p>@Recruitment.OrganizationVision.Replace(Environment.NewLine, "<br>")</p>
-    }
+                    <p>@Recruitment.OrganizationVision.Replace(Environment.NewLine, "<br>")</p>
+                }
             </div>
         </div>
-        <div class="card mb-3  pt-0" >
-                <div class="card-header mt-0" style="background-color: #f2f2f2;">
-                    <h6 class="text-dark  m-0">Mission: </h6>
+        <div class="card mb-3  pt-0">
+            <div class="card-header mt-0" style="background-color: #f2f2f2;">
+                <h6 class="text-dark  m-0">Mission: </h6>
 
-                </div>
+            </div>
 
             <div class="" style="height: 160px; overflow-y:auto; padding:5px 10px;">
-    @if (!string.IsNullOrEmpty(Recruitment.OrganizationMission))
-    {
+                @if (!string.IsNullOrEmpty(Recruitment.OrganizationMission))
+                {
 
-        <p>@Recruitment.OrganizationMission.Replace(Environment.NewLine, "<br>")</p>
-    }
+                    <p>@Recruitment.OrganizationMission.Replace(Environment.NewLine, "<br>")</p>
+                }
             </div>
         </div>
-              
+
     </div>
 
 </div>
@@ -108,16 +111,24 @@
 
 
 @code {
-    public Models.Recruitment Recruitment { get; set; } = new();
+    public Models.Recruitment? Recruitment { get; set; } = new();
     [Parameter]
     public string link { get; set; }
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(link))
         {
-            var x= await _keyValueservice.GetKeyValueList<Gender>();
             Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
         }
         await base.OnParametersSetAsync();
+    }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private void NavigateToRecruitmentForm()
+    {
+        NavigationManager.NavigateTo($"/Recruitment/{link}");
+        StateHasChanged();
     }
 }
