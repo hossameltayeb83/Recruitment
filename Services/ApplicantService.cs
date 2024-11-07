@@ -25,5 +25,10 @@ namespace Recruitment.Services
         {
             return await _context.Applicants.Where(e => e.SentToErp==false).ToListAsync();
         }
+
+        public async Task SaveApplicant(Applicant applicant)
+        {
+            await _context.AddAsync(applicant);
+        }
     }
 }
