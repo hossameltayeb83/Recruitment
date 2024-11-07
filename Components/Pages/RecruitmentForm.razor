@@ -47,6 +47,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="SecondName">Second Name <b style="color: red">*</b></label>
@@ -57,6 +58,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="ThirdName">
@@ -72,6 +74,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             @if (!IsDoctor)
                             {
                                 <div class="col-md-6">
@@ -86,6 +89,7 @@
 
                                 </div>
                             }
+
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="PhoneNumber">Phone No<b style="color: red">*</b></label>
@@ -95,6 +99,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             @if (!IsDoctor)
                             {
                                 <div class="col-md-6">
@@ -111,11 +116,11 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (genders.Count() > 0)
+                                            @if (Genders.Count() > 0)
                                             {
                                                 <select @bind="Applicant.GenderID" class="form-select">
-                                                    <option value="0">Select Gender</option>x
-                                                    @foreach (var gender in genders)
+                                                    <option value="0">Select Gender</option>
+                                                    @foreach (var gender in Genders)
                                                     {
                                                         <option value="@gender.Id">@gender.Value.ToString()</option>
                                                     }
@@ -136,15 +141,16 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="MartialStatusID">Martial Status<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (martialStatus.Count() > 0)
+                                            @if (MartialStatuses.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpMartialStatusID" class="form-select">
-                                                    <option value="0">Select Martial Status</option>x
-                                                    @foreach (var item in martialStatus)
+                                                    <option value="0">Select Martial Status</option>
+                                                    @foreach (var item in MartialStatuses)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
@@ -154,15 +160,16 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (militaryStatus.Count() > 0)
+                                            @if (MilitaryStatuses.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpMilitryStatusID" class="form-select">
-                                                    <option value="0">Select Militry Status</option>x
-                                                    @foreach (var item in militaryStatus)
+                                                    <option value="0">Select Militry Status</option>
+                                                    @foreach (var item in MilitaryStatuses)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
@@ -185,8 +192,6 @@
                             }
                         </div>
 
-
-
                     </fieldset>
                     @if (IsDoctor)
                     {
@@ -199,16 +204,26 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="GraduationYear">Year Of Graduation<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            <InputDate @bind-Value=GradYear />
-                                            @* <ValidationMessage For="@(()=>Applicant.GraduationYear)"></ValidationMessage> *@
+                                            <InputNumber @bind-Value=Applicant.GraduationYear Min="1980" Max="@DateTime.Now.Year"></InputNumber>
+                                            <ValidationMessage For="@(()=>Applicant.GraduationYear)"></ValidationMessage>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="University">University<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (Universities.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpUniversityID" class="form-select">
+                                                    <option value="0">Select University</option>
+                                                    @foreach (var item in Universities)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpUniversityID)"></ValidationMessage>
                                         </div>
                                     </div>
@@ -218,12 +233,22 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="DoctorDegreeID">Doctor Degree<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (DoctorDegrees.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpDoctorDegreeID" class="form-select">
+                                                    <option value="0">Select Degree</option>
+                                                    @foreach (var item in DoctorDegrees)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpDoctorDegreeID)"></ValidationMessage>
                                         </div>
                                     </div>
 
                                 </div>
+                                
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="DoctorDegreeDate">Doctor Degree Date</label>
@@ -234,20 +259,25 @@
                                     </div>
                                 </div>
 
-
-
-
-
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="SpecialtyID">SpecialtyID  <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (Specialities.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpSpecialtyID" class="form-select">
+                                                    <option value="0">Select Speciality</option>
+                                                    @foreach (var item in Specialities)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpSpecialtyID)"></ValidationMessage>
                                         </div>
                                     </div>
-
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">Other Specialty </label>
@@ -263,7 +293,16 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="BranchID">Branch <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (Branches.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpBranchID" class="form-select">
+                                                    <option value="0">Select Branch</option>
+                                                    @foreach (var item in Branches)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpBranchID)"></ValidationMessage>
                                         </div>
                                     </div>
@@ -316,24 +355,42 @@
 
 @code {
     public Applicant Applicant { get; set; } = new();
-    public DateTime GradYear { get; set; }
     public Models.Recruitment Recruitment { get; set; }
-    public List<Gender> genders { get; set; }
-    public List<MilitaryStatus> militaryStatus { get; set; }
-    public List<MartialStatus> martialStatus { get; set; }
     public bool IsDoctor { get; set; } = true;
     public decimal PositionDepartmentID { get; set; }
+
+    public List<Branch> Branches{ get; set; }
+    public List<DoctorDegree> DoctorDegrees { get; set; }
+    public List<Gender> Genders { get; set; }
+    public List<MilitaryStatus> MilitaryStatuses { get; set; }
+    public List<MartialStatus> MartialStatuses { get; set; }
+    public List<Speciality> Specialities { get; set; }
+    public List<University> Universities { get; set; }
+
     [Parameter]
     public string link { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrWhiteSpace(link))
+        if (string.IsNullOrWhiteSpace(link))
         {
-            Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
-            genders = await _setupService.GetGenderAsync();
-            militaryStatus = await _setupService.GetMilitaryStatusAsync();
-            martialStatus = await _setupService.GetMartialStatusAsync();
+            return;
         }
+
+        await LoadRecruitmentDataAsync();
+
+    }
+
+    private async Task LoadRecruitmentDataAsync()
+    {
+        Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
+
+        Branches = await _setupService.GetBranchAsync();
+        DoctorDegrees = await _setupService.GetDoctorDegreeAsync();
+        Genders = await _setupService.GetGenderAsync();
+        MilitaryStatuses = await _setupService.GetMilitaryStatusAsync();
+        MartialStatuses = await _setupService.GetMartialStatusAsync();
+        Specialities = await _setupService.GetSpecialityAsync();
+        Universities = await _setupService.GetUniversitiesAsync();
     }
 }
