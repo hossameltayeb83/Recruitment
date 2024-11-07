@@ -11,7 +11,7 @@ using Recruitment.Data;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241107084402_init")]
+    [Migration("20241107105031_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -59,9 +59,6 @@ namespace Recruitment.Migrations
                     b.Property<decimal?>("ErpDoctorDegreeID")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("ErpEmployeeCategoryID")
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal?>("ErpMartialStatusID")
                         .HasColumnType("TEXT");
 
@@ -85,6 +82,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("GraduationYear")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDoctor")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsNew")
@@ -203,8 +203,8 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("ErpDepartmentPositionID")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("ErpEmployeeCategoryID")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("IsDoctor")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LinkExpiryDate")
                         .HasColumnType("TEXT");

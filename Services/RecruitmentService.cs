@@ -14,7 +14,7 @@ namespace Recruitment.Services
             new Models.Recruitment
             {
                 ErpDepartmentPositionID = 101,
-                ErpEmployeeCategoryID = 1,
+                IsDoctor = true,
                 PositionName = "Software Engineer",
                 PositionSummary = "Develop and maintain software applications.",
                 PositionDetails = "Design, implement, and test software solutions, ensure code quality.",
@@ -27,7 +27,7 @@ namespace Recruitment.Services
             new Models.Recruitment
             {
                 ErpDepartmentPositionID = 638003011108621225.57196928M,
-                ErpEmployeeCategoryID = 2,
+                IsDoctor = true,
                 PositionName = "Product Manager",
                 PositionSummary = "Lead product development teams, drive the product roadmap.",
                 PositionDetails = "Work with cross-functional teams to develop product strategies, define features, and deliver products.",
@@ -40,7 +40,7 @@ namespace Recruitment.Services
             new Models.Recruitment
             {
                 ErpDepartmentPositionID = 635430293896600369.96598774M,
-                ErpEmployeeCategoryID = 1,
+                IsDoctor = true,
                 PositionName = "Senior Software Engineer",
                 PositionSummary = "Lead technical teams and mentor junior engineers.",
                 PositionDetails = "Lead design and development efforts for complex projects. Provide technical leadership and mentoring.",
@@ -53,7 +53,7 @@ namespace Recruitment.Services
             new Models.Recruitment
             {
                 ErpDepartmentPositionID = 103,
-                ErpEmployeeCategoryID = 3,
+                IsDoctor = true,
                 PositionName = "Sales Manager",
                 PositionSummary = "Manage sales operations and drive revenue growth.",
                 PositionDetails = "Develop and implement sales strategies, oversee sales teams, and manage client relationships.",
@@ -91,7 +91,8 @@ namespace Recruitment.Services
         {
             var stringLink = DecryptGeneric(link);
             decimal.TryParse(stringLink, out var departmentPositionID);
-            return await Task.FromResult(dtos.FirstOrDefault(e => e.ErpDepartmentPositionID == departmentPositionID));
+            var x = await _context.Recruitments.ToListAsync();
+            return _context.Recruitments.FirstOrDefault(e => e.ErpDepartmentPositionID == departmentPositionID);
         }
         public async Task HandleRecruitmentsSentFromErp(List<RecruitmentDto> recruitments)
         {

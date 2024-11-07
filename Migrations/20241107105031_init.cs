@@ -16,7 +16,7 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ErpEmployeeCategoryID = table.Column<decimal>(type: "TEXT", nullable: false),
+                    IsDoctor = table.Column<bool>(type: "INTEGER", nullable: false),
                     ErpDepartmentPositionID = table.Column<decimal>(type: "TEXT", nullable: true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     SecondName = table.Column<string>(type: "TEXT", nullable: false),
@@ -124,7 +124,7 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     ErpDepartmentPositionID = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ErpEmployeeCategoryID = table.Column<decimal>(type: "TEXT", nullable: false),
+                    IsDoctor = table.Column<bool>(type: "INTEGER", nullable: false),
                     PositionName = table.Column<string>(type: "TEXT", nullable: false),
                     PositionSummary = table.Column<string>(type: "TEXT", nullable: true),
                     PositionDetails = table.Column<string>(type: "TEXT", nullable: true),

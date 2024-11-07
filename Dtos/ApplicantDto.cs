@@ -3,7 +3,7 @@
     public class ApplicantDto
     {
         public decimal ApiApplicantId { get; set; }
-        public decimal ErpEmployeeCategoryID { get; set; }
+        public bool IsDoctor { get; set; }
         public decimal? ErpDepartmentPositionID { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

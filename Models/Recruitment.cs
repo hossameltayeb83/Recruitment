@@ -13,7 +13,7 @@ namespace Recruitment.Models
         public Recruitment(RecruitmentDto dto)
         {
             ErpDepartmentPositionID = dto.ErpDepartmentPositionID;
-            ErpEmployeeCategoryID= dto.ErpEmployeeCategoryID;
+            IsDoctor= dto.IsDoctor;
             PositionName = dto.PositionName;
             PositionSummary = dto.PositionSummary;
             PositionDetails = dto.PositionDetails;
@@ -25,7 +25,7 @@ namespace Recruitment.Models
         }
         [Key]
         public decimal ErpDepartmentPositionID { get; set; }
-        public decimal ErpEmployeeCategoryID { get; set; }
+        public bool IsDoctor { get; set; }
         public string PositionName { get; set; }
         public string? PositionSummary { get; set; }
         public string? PositionDetails { get; set; }
