@@ -1,4 +1,5 @@
 ﻿@page "/{lang}/Recruitment/{link}"
+@using System.Globalization
 @inject IRecruitmentService _service;
 @inject ISetupKeyValueService _setupService;
 @inject IApplicantService _applicantService;
@@ -29,11 +30,11 @@
                 @Recruitment.PositionName
             </div>
             <EditForm Model="Applicant" OnSubmit="Send">
-                <DataAnnotationsValidator/>
+                <DataAnnotationsValidator />
                 <div class="p-3">
                     @if (IsDoctor)
                     {
-                        <h6 class="text-primary">Personal Information</h6>
+                        <h6 class="text-primary">@Localizer.GetString("PersonalData")</h6>
                     }
                     <fieldset class="p-2 mb-2 mt-0 ">
                         <legend class="d-inline mr-3 mb-0"></legend>
@@ -117,7 +118,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Genders !=null && Genders.Count() > 0)
+                                            @if (Genders != null && Genders.Count() > 0)
                                             {
                                                 <select @bind="Applicant.GenderID" class="form-select">
                                                     <option value="0">Select Gender</option>
@@ -166,7 +167,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (MilitaryStatuses!=null &&MilitaryStatuses.Count() > 0)
+                                            @if (MilitaryStatuses != null && MilitaryStatuses.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpMilitryStatusID" class="form-select">
                                                     <option value="0">Select Militry Status</option>
@@ -215,7 +216,7 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="University">University<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Universities !=null && Universities.Count() > 0)
+                                            @if (Universities != null && Universities.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpUniversityID" class="form-select">
                                                     <option value="0">Select University</option>
@@ -249,7 +250,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="DoctorDegreeDate">Doctor Degree Date</label>
@@ -378,7 +379,7 @@
     public bool IsDoctor { get; set; }
     public decimal PositionDepartmentID { get; set; }
 
-    public List<KeyValue> Branches{ get; set; }
+    public List<KeyValue> Branches { get; set; }
     public List<KeyValue> DoctorDegrees { get; set; }
     public List<KeyValue> Genders { get; set; }
     public List<KeyValue> MilitaryStatuses { get; set; }
@@ -401,16 +402,22 @@
         }
 
         await LoadRecruitmentDataAsync();
-
+        if (lang == "ar")
+        {
+            CultureInfo culture = new CultureInfo("ar-EG");
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+            StateHasChanged();
+        }
     }
 
     private async Task LoadRecruitmentDataAsync()
     {
-        var lang = "ar";
+        // var lang = "ar";
         Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
         if (Recruitment != null)
             IsDoctor = Recruitment.IsDoctor;
-        var x = await _applicantService.GetAllApplicants();
+        // var x = await _applicantService.GetAllApplicants();
         Branches = await _setupService.GetKeyValueList<Branch>(lang);
         Universities = await _setupService.GetKeyValueList<University>(lang);
         Genders = await _setupService.GetKeyValueList<Gender>(lang);

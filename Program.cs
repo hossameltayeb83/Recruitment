@@ -27,6 +27,7 @@ namespace Recruitment
             builder.Services.AddScoped<IApplicantService,ApplicantService>();
             builder.Services.AddScoped<ISetupKeyValueService,SetupKeyValueService>();
             builder.Services.ConfigureLocalization();
+            builder.Services.AddHostedService<StartingService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
