@@ -4,6 +4,11 @@
     {
         Branch,
         University,
-        Gender
+        Gender,
+        Military,
+        Martial,
+        DoctorDegree,
+        AreaCity,
+        Speciality
     }
 }

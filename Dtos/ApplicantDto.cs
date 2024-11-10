@@ -26,6 +26,5 @@
         public decimal? ErpOtherSpecialtyID { get; set; }
         public DateTime? DoctorDegreeDate { get; set; }
         public string ApplicantNotes { get; set; }
-        public bool IsNew { get; set; }
     }
 }

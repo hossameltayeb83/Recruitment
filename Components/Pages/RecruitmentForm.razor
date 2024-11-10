@@ -1,4 +1,4 @@
-﻿@page "/Recruitment/{link}"
+﻿@page "/{lang}/Recruitment/{link}"
 @inject IRecruitmentService _service;
 @inject ISetupKeyValueService _setupService;
 @inject IApplicantService _applicantService;
@@ -28,7 +28,7 @@
             <div class="card-header m-0 mb-3 bg-primary text-white">
                 @Recruitment.PositionName
             </div>
-            <EditForm Model="Applicant" OnInvalidSubmit="Send">
+            <EditForm Model="Applicant" OnSubmit="Send">
                 <DataAnnotationsValidator/>
                 <div class="p-3">
                     @if (IsDoctor)
@@ -283,7 +283,16 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">Other Specialty </label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (OtherSpecialities != null && OtherSpecialities.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpOtherSpecialtyID" class="form-select">
+                                                    <option value="0">Select Speciality</option>
+                                                    @foreach (var item in OtherSpecialities)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpOtherSpecialtyID)"></ValidationMessage>
                                         </div>
                                     </div>
@@ -313,11 +322,11 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="AreaCityID">Residence Area / Governate <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Areas != null && Areas.Count() > 0)
+                                            @if (AreaCities != null && AreaCities.Count() > 0)
                                             {
                                                 <select @bind="Applicant.ErpAreaCityID" class="form-select">
-                                                    <option value="0">Select Area-City</option>
-                                                    @foreach (var item in Areas)
+                                                    <option value="0">Select Area</option>
+                                                    @foreach (var item in AreaCities)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
@@ -366,20 +375,23 @@
 @code {
     public Applicant Applicant { get; set; } = new();
     public Models.Recruitment Recruitment { get; set; }
-    public bool IsDoctor { get; set; } = false;
+    public bool IsDoctor { get; set; }
     public decimal PositionDepartmentID { get; set; }
 
-    public List<AreaCity> Areas{ get; set; }
-    public List<Branch> Branches{ get; set; }
-    public List<DoctorDegree> DoctorDegrees { get; set; }
-    public List<Gender> Genders { get; set; }
-    public List<MilitaryStatus> MilitaryStatuses { get; set; }
-    public List<MartialStatus> MartialStatuses { get; set; }
-    public List<Speciality> Specialities { get; set; }
-    public List<University> Universities { get; set; }
+    public List<KeyValue> Branches{ get; set; }
+    public List<KeyValue> DoctorDegrees { get; set; }
+    public List<KeyValue> Genders { get; set; }
+    public List<KeyValue> MilitaryStatuses { get; set; }
+    public List<KeyValue> MartialStatuses { get; set; }
+    public List<KeyValue> Specialities { get; set; }
+    public List<KeyValue> OtherSpecialities { get; set; }
+    public List<KeyValue> AreaCities { get; set; }
+    public List<KeyValue> Universities { get; set; }
 
     [Parameter]
     public string link { get; set; }
+    [Parameter]
+    public string lang { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -394,18 +406,21 @@
 
     private async Task LoadRecruitmentDataAsync()
     {
+        var lang = "ar";
         Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
-
-        // Areas = await _setupService.GetKeyValueList<AreaCity>();
-        // Branches = await _setupService.GetKeyValueList<Branch>();
-        // DoctorDegrees = await _setupService.GetKeyValueList<DoctorDegree>();
-        // Genders = await _setupService.GetKeyValueList<Gender>();
-        // MilitaryStatuses = await _setupService.GetKeyValueList<MilitaryStatus>();
-        // MartialStatuses = await _setupService.GetKeyValueList<MartialStatus>();
-        // Specialities = await _setupService.GetKeyValueList<Speciality>();
-        // Universities = await _setupService.GetKeyValueList<University>();
+        if (Recruitment != null)
+            IsDoctor = Recruitment.IsDoctor;
+        var x = await _applicantService.GetAllApplicants();
+        Branches = await _setupService.GetKeyValueList<Branch>(lang);
+        Universities = await _setupService.GetKeyValueList<University>(lang);
+        Genders = await _setupService.GetKeyValueList<Gender>(lang);
+        OtherSpecialities = await _setupService.GetKeyValueList<Speciality>(lang, hasParent: true);
+        Specialities = await _setupService.GetKeyValueList<Speciality>(lang);
+        DoctorDegrees = await _setupService.GetKeyValueList<DoctorDegree>(lang);
+        MilitaryStatuses = await _setupService.GetKeyValueList<MilitaryStatus>(lang);
+        MartialStatuses = await _setupService.GetKeyValueList<MartialStatus>(lang);
+        AreaCities = await _setupService.GetKeyValueList<AreaCity>(lang);
     }
-
     private async Task Send()
     {
         await _applicantService.SaveApplicant(Applicant);

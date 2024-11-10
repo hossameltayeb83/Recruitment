@@ -13,7 +13,7 @@ namespace Recruitment.Services
         }
         public async Task ChangeSentToErp(List<decimal> ids)
         {
-           var applicants= await _context.Applicants.Where(e => ids.Contains(e.Id)).ToListAsync();
+           var applicants= await _context.Applicants.Where(e => ids.Contains(e.ApiApplicantId)).ToListAsync();
            foreach(var applicant in applicants)
            {
                 applicant.SentToErp = true;
@@ -29,7 +29,14 @@ namespace Recruitment.Services
         public async Task SaveApplicant(Applicant applicant)
         {
             await _context.AddAsync(applicant);
+            try
+            {
             await _context.SaveChangesAsync();
+
+            }
+            catch(Exception ex) {
+            
+            }
         }
     }
 }

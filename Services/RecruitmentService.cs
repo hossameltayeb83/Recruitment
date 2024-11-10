@@ -118,6 +118,14 @@ namespace Recruitment.Services
                             _context.Recruitments.Remove(recruitmentToModify);
                         }
                     }
+                    else
+                    {
+                        if (dto.EventType == EventType.Modified)
+                        {
+                            var recruitmentToAdd = new Models.Recruitment(dto);
+                            _context.Recruitments.Add(recruitmentToAdd);
+                        }
+                    }
                 }
             }
             await _context.SaveChangesAsync();
