@@ -52,7 +52,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +66,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +80,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +94,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,7 +108,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,7 +122,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,7 +156,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,7 +170,9 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false)
+                    ValueAr = table.Column<string>(type: "TEXT", nullable: true),
+                    ValueEn = table.Column<string>(type: "TEXT", nullable: true),
+                    HasParent = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

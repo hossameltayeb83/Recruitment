@@ -11,7 +11,7 @@ using Recruitment.Data;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241107105031_init")]
+    [Migration("20241110090411_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -119,8 +119,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -133,8 +138,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -147,8 +157,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -161,8 +176,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -175,8 +195,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -189,8 +214,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -242,8 +272,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -256,8 +291,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
+                    b.Property<bool>("HasParent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ValueAr")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValueEn")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

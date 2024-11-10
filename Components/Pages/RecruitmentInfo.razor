@@ -1,4 +1,4 @@
-﻿@page "/RecruitmentInfo/{link}"
+﻿@page "/{lang}/RecruitmentInfo/{link}"
 @inject IRecruitmentService _service
 @inject ISetupKeyValueService _keyValueservice
  <div class="col-lg-12">
@@ -114,11 +114,13 @@
     public Models.Recruitment? Recruitment { get; set; } = new();
     [Parameter]
     public string link { get; set; }
+    [Parameter]
+    public string lang { get; set; }
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(link))
         {
-            var x= await _keyValueservice.GetKeyValueList<Gender>();
+            // var x= await _keyValueservice.GetKeyValueList<Gender>();
             Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
         }
         await base.OnParametersSetAsync();
@@ -129,7 +131,6 @@
 
     private void NavigateToRecruitmentForm()
     {
-        NavigationManager.NavigateTo($"/Recruitment/{Uri.EscapeDataString(link)}");
-        StateHasChanged();
+        NavigationManager.NavigateTo($"/{lang}/Recruitment/{Uri.EscapeDataString(link)}");
     }
 }

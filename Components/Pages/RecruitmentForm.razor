@@ -1,4 +1,4 @@
-﻿@page "/Recruitment/{link}"
+﻿@page "/{lang}/Recruitment/{link}"
 @inject IRecruitmentService _service;
 @inject ISetupKeyValueService _setupService;
 
@@ -282,7 +282,16 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">Other Specialty </label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (OtherSpecialities != null && OtherSpecialities.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpOtherSpecialtyID" class="form-select">
+                                                    <option value="0">Select Speciality</option>
+                                                    @foreach (var item in OtherSpecialities)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpOtherSpecialtyID)"></ValidationMessage>
                                         </div>
                                     </div>
@@ -312,7 +321,16 @@
                                     <div class="form-group  mb-3 row">
                                         <label class="col-sm-12 m-0 d" for="AreaCityID">Residence Area / Governate <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @* <InputSelect></InputSelect> *@
+                                            @if (AreaCities != null && AreaCities.Count() > 0)
+                                            {
+                                                <select @bind="Applicant.ErpAreaCityID" class="form-select">
+                                                    <option value="0">Select Branch</option>
+                                                    @foreach (var item in AreaCities)
+                                                    {
+                                                        <option value="@item.Id">@item.Value.ToString()</option>
+                                                    }
+                                                </select>
+                                            }
                                             <ValidationMessage For="@(()=>Applicant.ErpAreaCityID)"></ValidationMessage>
                                         </div>
                                     </div>
@@ -359,16 +377,20 @@
     public bool IsDoctor { get; set; } = true;
     public decimal PositionDepartmentID { get; set; }
 
-    public List<Branch> Branches{ get; set; }
-    public List<DoctorDegree> DoctorDegrees { get; set; }
-    public List<Gender> Genders { get; set; }
-    public List<MilitaryStatus> MilitaryStatuses { get; set; }
-    public List<MartialStatus> MartialStatuses { get; set; }
-    public List<Speciality> Specialities { get; set; }
-    public List<University> Universities { get; set; }
+    public List<KeyValue> Branches{ get; set; }
+    public List<KeyValue> DoctorDegrees { get; set; }
+    public List<KeyValue> Genders { get; set; }
+    public List<KeyValue> MilitaryStatuses { get; set; }
+    public List<KeyValue> MartialStatuses { get; set; }
+    public List<KeyValue> Specialities { get; set; }
+    public List<KeyValue> OtherSpecialities { get; set; }
+    public List<KeyValue> AreaCities { get; set; }
+    public List<KeyValue> Universities { get; set; }
 
     [Parameter]
     public string link { get; set; }
+    [Parameter]
+    public string lang { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -383,14 +405,16 @@
 
     private async Task LoadRecruitmentDataAsync()
     {
+        var lang = "ar";
         Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
-
-        // Branches = await _setupService.GetBranchAsync();
-        // DoctorDegrees = await _setupService.GetDoctorDegreeAsync();
-        // Genders = await _setupService.GetGenderAsync();
-        // MilitaryStatuses = await _setupService.GetMilitaryStatusAsync();
-        // MartialStatuses = await _setupService.GetMartialStatusAsync();
-        // Specialities = await _setupService.GetSpecialityAsync();
-        // Universities = await _setupService.GetUniversitiesAsync();
+        Branches = await _setupService.GetKeyValueList<Branch>(lang);
+        Universities = await _setupService.GetKeyValueList<University>(lang);
+        Genders = await _setupService.GetKeyValueList<Gender>(lang);
+        OtherSpecialities = await _setupService.GetKeyValueList<Speciality>(lang, hasParent: true);
+        Specialities = await _setupService.GetKeyValueList<Speciality>(lang);
+        DoctorDegrees = await _setupService.GetKeyValueList<DoctorDegree>(lang);
+        MilitaryStatuses = await _setupService.GetKeyValueList<MilitaryStatus>(lang);
+        MartialStatuses = await _setupService.GetKeyValueList<MartialStatus>(lang);
+        AreaCities = await _setupService.GetKeyValueList<AreaCity>(lang);
     }
 }

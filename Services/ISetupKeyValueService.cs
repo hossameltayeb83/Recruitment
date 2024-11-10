@@ -8,6 +8,6 @@ namespace Recruitment.Services
     public interface ISetupKeyValueService
     {
         Task HandleSetup(List<SetupKeyValueDto> dtos);
-        Task<List<TSetup>> GetKeyValueList<TSetup>() where TSetup : SetupKeyValue;
+        Task<List<KeyValue>> GetKeyValueList<TSetup>(string lang,bool hasParent=false) where TSetup : SetupKeyValue;
     }
 }
