@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Recruitment.Components;
 using Recruitment.Data;
+using Recruitment.Localization;
 using Recruitment.Services;
 
 namespace Recruitment
@@ -25,6 +26,7 @@ namespace Recruitment
             builder.Services.AddScoped<IRecruitmentService,RecruitmentService>();
             builder.Services.AddScoped<IApplicantService,ApplicantService>();
             builder.Services.AddScoped<ISetupKeyValueService,SetupKeyValueService>();
+            builder.Services.ConfigureLocalization();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -29,6 +29,7 @@ namespace Recruitment.Services
         public async Task SaveApplicant(Applicant applicant)
         {
             await _context.AddAsync(applicant);
+            await _context.SaveChangesAsync();
         }
     }
 }

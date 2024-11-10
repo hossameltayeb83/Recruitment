@@ -1,0 +1,52 @@
+﻿Key,Arabic,English
+FirstName,الإسم الأول,First Name
+SecondName,الإسم الأوسط,Second Name
+ThirdName,الإسم الأخير,Third Name
+Title,الوظيفة,Title
+GenderID,النوع,Gender
+BirthDate,تاريخ الميلاد,Birth Date
+PhoneNumber,الهاتف,Phone Number
+Address,العنوان,Address
+ErpAreaCityID,المنطقة-المدينة,Area-City
+Email,البريد الإلكتروني,Email
+ErpMartialStatusID,الحالة الإجتماعية,Martial Status
+ErpMilitryStatusID,الخدمة العسكرية,Military Status
+GraduationYear,سنة التخرج,Graduation Year
+ErpUniversityID,الجامعة,University
+ErpDoctorDegreeID,الدرجة العلمية,Doctor Degree
+Doctors,الاطباء,Doctors
+DoctorName,اسم الطبيب,Doctor Name
+DoctorDegreeDate,تاريخ الدرجة العلمية,Doctor Degree Date
+SelectDoctorDegree,اختر الدرجة العلمية,Select Doctor Degree
+ApplicantNotes,الخبرات,Experience
+SelectBranch,اختر الفرع,Select Branch
+Branches,الفروع,Branches
+SelectSpeciality,اختر التخصص,Select Speciality
+ErpSpecialtyID,التخصص,Speciality
+Specialties,التخصصات,Specialties
+ErpOtherSpecialtyID,التخصصات الفرعية,Other Specialty
+Close,اغلاق,Close
+Saturday,السبت,Saturday
+Sunday,الاحد,Sunday
+Monday,الاثنين,Monday
+Tuesday,الثلاثاء,Tuesday
+Wednesday,الاربعاء,Wednesday
+Thursday,الخميس,Thursday
+Friday,الجمعة,Friday
+EnterData,ادخل بيانات,Enter Data
+StartFrom,بداية من ,Start From
+Select,اختر,Select
+SuccessMessage,تمت العملية بنجاح,Done successfully.
+MaxmimumOnlineReservationError,تم الوصول إلى الحد الأقصى للحجز في هذا التوقيت ,The maximum limit for booking on this time has been reached 
+Next,التالي,Next
+Previous,السابق,Previous
+Today,اليوم,Today
+Tomorrow,غداً,Tomorrow
+Now,الان,Now
+RequiredError,{0} مطلوب إدخاله,{0} is required
+UnexpectedError,خطأ غير متوقع,Unexpected Error
+UnexpectedErrorWithTrace,خطأ غير متوقع (رقم المراجعة: {0}),Unexpected Error (trace code:{0})
+Actions,الاجراءات,Actions
+Submit,تم,Submit
+From,من,From
+To,الى,To
