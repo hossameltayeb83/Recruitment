@@ -1,16 +1,17 @@
 ﻿Key,Arabic,English
 FirstName,الإسم الأول,First Name
-SecondName,الإسم الأوسط,Second Name
-ThirdName,الإسم الأخير,Third Name
-Title,الوظيفة,Title
+SecondName,الإسم الثاني,Second Name
+ThirdName,الإسم الثالث,Third Name
+Title,اللقب,Title
 GenderID,النوع,Gender
+SelectGender,اختر النوع,Select Gender
 BirthDate,تاريخ الميلاد,Birth Date
-PhoneNumber,الهاتف,Phone Number
+PhoneNumber,رقم التليفون,Phone Number
 Address,العنوان,Address
-ErpAreaCityID,المنطقة-المدينة,Area-City
+ErpAreaCityID,منطقة السكن / المحافظة,Residence Area / Governate
 Email,البريد الإلكتروني,Email
 ErpMartialStatusID,الحالة الإجتماعية,Martial Status
-ErpMilitryStatusID,الخدمة العسكرية,Military Status
+ErpMilitryStatusID,الموقف من التجنيد,Military Status
 GraduationYear,سنة التخرج,Graduation Year
 ErpUniversityID,الجامعة,University
 ErpDoctorDegreeID,الدرجة العلمية,Doctor Degree
@@ -20,11 +21,11 @@ DoctorDegreeDate,تاريخ الدرجة العلمية,Doctor Degree Date
 SelectDoctorDegree,اختر الدرجة العلمية,Select Doctor Degree
 ApplicantNotes,الخبرات,Experience
 SelectBranch,اختر الفرع,Select Branch
-Branches,الفروع,Branches
+ErpBranchID,الفرع,Branch
 SelectSpeciality,اختر التخصص,Select Speciality
 ErpSpecialtyID,التخصص,Speciality
 Specialties,التخصصات,Specialties
-ErpOtherSpecialtyID,التخصصات الفرعية,Other Specialty
+ErpOtherSpecialtyID,التخصص الفرعى,Other Specialty
 Close,اغلاق,Close
 Saturday,السبت,Saturday
 Sunday,الاحد,Sunday
@@ -50,4 +51,31 @@ Actions,الاجراءات,Actions
 Submit,تم,Submit
 From,من,From
 To,الى,To
-PersonalData,البيانات الشخصية,Personal Data
+PersonalData,المعلومات الاساسية,Personal Data
+PositionName,الوظيفة,Job
+PositionSummary,ملخص الوظيفة,Job Summary
+RecruitmentTitle,اللقب,Recruitment Title
+SelectMartialStatus,اختر الحالة الإجتماعية,Select Martial Status
+SelectMilitaryStatus,اختر الموقف من التجنيد,Select Military Status
+SelectUniversity,اختر الجامعة,Select University
+SelectDegree,اختر الدرجة العلمية,Select Degree
+SelectSpeciality,اختر التخصص,Select Speciality
+CV,الملف الشخصى,CV
+Send,إرسال,Send
+MaxSize,حد اقصى 2 ميجابايت,Maximum Size 2 MB
+SelectArea,اختر المنطقة-المحافظة,Select Area
+OrganizationName,اسم المؤسسة,Organization Name
+Apply,التقدم للوظيفة,Apply
+OrganizationVision,الرؤية,Vision
+OrganizationMission,الرسالة,Mission
+PositionDetails,تفاصيل الوظيفة,Job Details
+PositionRequirements,متطلبات الوظيفة,Job Requirements
+SpacesError,ماسافات كثيرة,Many Spaces
+MaxLegnthError,المدخل اطول من الحد الأقصي المسموح,The input exceeds the maximum allowed length.
+Required,مطلوب,Required
+LettersError,يجب ان يحتوي علي حروف فقط,The input can only contain letters
+FutureError,لايقبل تاريخ مستقبلي,Future date is not allowed
+AgeError,يجب ان تكون 15 فأكثر للتقدم,You must be older than 15 years old to apply.
+PhoneNumberError,يجب ان يحتوي التليفون علي 11 رقم فاكثر,Phone number must contain only numbers and be at least 11 digits long.
+EmailError,ادخل بريد الكتروني صحيح,Please enter a valid email address.
+GraduationYearError,يجب ان تكون سنة التخرج من 1980 للسنة الحالية,Graduation Year must be between 1980 and the current year.
