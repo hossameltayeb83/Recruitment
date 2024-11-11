@@ -34,6 +34,9 @@ namespace Recruitment.Migrations
                     b.Property<string>("CV")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CvFileName")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("DoctorDegreeDate")
                         .HasColumnType("TEXT");
 

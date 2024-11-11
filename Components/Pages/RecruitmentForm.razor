@@ -6,7 +6,7 @@
 <div class="card mb-3">
     <div class="row g-0">
         <div class="col-md-3 text-center ">
-            <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="..." />
+            <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="Logo" />
         </div>
         <div class="col-md-9">
             <div class="card-body">
@@ -31,7 +31,7 @@
             <EditForm Model="Applicant" OnSubmit="Send">
                 <DataAnnotationsValidator/>
                 <div class="p-3">
-                    @if (IsDoctor)
+                    @if (Applicant.IsDoctor)
                     {
                         <h6 class="text-primary">Personal Information</h6>
                     }
@@ -64,7 +64,7 @@
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="ThirdName">
                                         Third Name
-                                        @if (IsDoctor)
+                                        @if (Applicant.IsDoctor)
                                         {
                                             <b style="color: red">*</b>
                                         }
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
 
-                            @if (!IsDoctor)
+                            @if (!Applicant.IsDoctor)
                             {
                                 <div class="col-md-6">
 
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
 
-                            @if (!IsDoctor)
+                            @if (!Applicant.IsDoctor)
                             {
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
@@ -194,7 +194,7 @@
                         </div>
 
                     </fieldset>
-                    @if (IsDoctor)
+                    @if (Applicant.IsDoctor)
                     {
 
                         <h6 class="text-primary mt-3">DoctorDegree</h6>
@@ -354,8 +354,8 @@
                         <label class="m-0 " for="CV">CV</label>
 
                         <div class="d-flex flex-row align-middle">
-                            <InputFile></InputFile>
-                            <small class="d-block me-2 ms-1" style="color: red">CV Maximum Size</small>
+                            <InputFile OnChange="LoadCV"></InputFile>
+                            <small class="d-block me-2 ms-1" style="color: red">CV Maximum Size 500 kb</small>
                             <ValidationMessage For="@(()=>Applicant.CV)"></ValidationMessage>
                         </div>
 
@@ -373,9 +373,8 @@
 </div>
 
 @code {
-    public Applicant Applicant { get; set; } = new();
+    public ApplicantDto Applicant { get; set; } = new();
     public Models.Recruitment Recruitment { get; set; }
-    public bool IsDoctor { get; set; }
     public decimal PositionDepartmentID { get; set; }
 
     public List<KeyValue> Branches{ get; set; }
@@ -395,22 +394,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (string.IsNullOrWhiteSpace(link))
+        if (!string.IsNullOrWhiteSpace(link))
         {
-            return;
+            await LoadRecruitmentDataAsync();
         }
-
-        await LoadRecruitmentDataAsync();
-
     }
 
     private async Task LoadRecruitmentDataAsync()
     {
-        var lang = "ar";
         Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
         if (Recruitment != null)
-            IsDoctor = Recruitment.IsDoctor;
-        var x = await _applicantService.GetAllApplicants();
+        {
+            Applicant.IsDoctor = Recruitment.IsDoctor;
+            Applicant.ErpDepartmentPositionID = Recruitment.ErpDepartmentPositionID;
+            Applicant.ApiApplicantId = _applicantService.GetNewId();
+        }
         Branches = await _setupService.GetKeyValueList<Branch>(lang);
         Universities = await _setupService.GetKeyValueList<University>(lang);
         Genders = await _setupService.GetKeyValueList<Gender>(lang);
@@ -420,6 +418,24 @@
         MilitaryStatuses = await _setupService.GetKeyValueList<MilitaryStatus>(lang);
         MartialStatuses = await _setupService.GetKeyValueList<MartialStatus>(lang);
         AreaCities = await _setupService.GetKeyValueList<AreaCity>(lang);
+    }
+    private async Task LoadCV(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            var extension = Path.GetExtension(file.Name);
+            var fileName = Guid.NewGuid().ToString()+extension;
+            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot","CVs",fileName); 
+
+            await using FileStream fs = new(path, FileMode.Create);
+            await file.OpenReadStream(1024 *2000).CopyToAsync(fs);
+            Applicant.CvFileName = fileName;
+        }
+        catch (Exception ex)
+        {
+            
+        }
     }
     private async Task Send()
     {

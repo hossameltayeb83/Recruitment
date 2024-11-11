@@ -1,10 +1,46 @@
-﻿using Recruitment.Attributes;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Recruitment.Attributes;
+using Recruitment.Dtos;
+using Recruitment.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace Recruitment.Models
 {
     public class Applicant
     {
+        public Applicant()
+        {
+            
+        }
+        public Applicant(ApplicantDto Dto)
+        {
+            ApiApplicantId = Dto.ApiApplicantId;
+            IsDoctor=Dto.IsDoctor;
+            ErpDepartmentPositionID=Dto.ErpDepartmentPositionID;
+            FirstName = Dto.FirstName;
+            SecondName = Dto.SecondName;
+            ThirdName = Dto.ThirdName;
+            Title = Dto.Title;
+            GenderID = Dto.GenderID;
+            BirthDate = Dto.BirthDate;
+            PhoneNumber = Dto.PhoneNumber;
+            Address = Dto.Address;
+            ErpAreaCityID = Dto.ErpAreaCityID;
+            Email =Dto.Email;
+            ErpMartialStatusID = Dto.ErpMartialStatusID;
+            ErpMilitryStatusID =Dto.ErpMilitryStatusID;
+            CvFileName =Dto.CvFileName;
+            CV =Dto.CV;
+            GraduationYear = Dto.GraduationYear;
+            ErpUniversityID = Dto.ErpUniversityID;
+            ErpDoctorDegreeID = Dto.ErpDoctorDegreeID;
+            ErpBranchID = Dto.ErpBranchID;
+            ErpSpecialtyID = Dto.ErpSpecialtyID;
+            ErpOtherSpecialtyID = Dto.ErpOtherSpecialtyID;
+            DoctorDegreeDate = Dto.DoctorDegreeDate;
+            ApplicantNotes = Dto.ApplicantNotes;
+            SentToErp = false;
+        }
         [Key]
         public decimal ApiApplicantId { get; set; }
 
@@ -36,6 +72,7 @@ namespace Recruitment.Models
 
         public decimal? ErpMilitryStatusID { get; set; }
         
+        public string? CvFileName { get; set; }
         public string? CV { get; set; }
 
         public int? GraduationYear { get; set; }

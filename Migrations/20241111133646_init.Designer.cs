@@ -11,7 +11,7 @@ using Recruitment.Data;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241110121049_init")]
+    [Migration("20241111133646_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -35,6 +35,9 @@ namespace Recruitment.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CV")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CvFileName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("DoctorDegreeDate")

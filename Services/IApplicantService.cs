@@ -1,12 +1,13 @@
-﻿using Recruitment.Models;
+﻿using Recruitment.Dtos;
+using Recruitment.Models;
 
 namespace Recruitment.Services
 {
     public interface IApplicantService
     {
-        Task<List<Applicant>> GetAllApplicants();
-
+        Task<List<ApplicantDto>> GetAllApplicants();
+        public decimal GetNewId();
         public Task ChangeSentToErp(List<decimal> ids);
-        public Task SaveApplicant(Applicant applicant);
+        public Task SaveApplicant(ApplicantDto applicant);
     }
 }

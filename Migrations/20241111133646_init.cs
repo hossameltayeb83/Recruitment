@@ -30,6 +30,7 @@ namespace Recruitment.Migrations
                     Email = table.Column<string>(type: "TEXT", nullable: true),
                     ErpMartialStatusID = table.Column<decimal>(type: "TEXT", nullable: true),
                     ErpMilitryStatusID = table.Column<decimal>(type: "TEXT", nullable: true),
+                    CvFileName = table.Column<string>(type: "TEXT", nullable: true),
                     CV = table.Column<string>(type: "TEXT", nullable: true),
                     GraduationYear = table.Column<int>(type: "INTEGER", nullable: true),
                     ErpUniversityID = table.Column<decimal>(type: "TEXT", nullable: true),
