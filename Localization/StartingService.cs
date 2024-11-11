@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Recruitment.Helper;
 using static Recruitment.Localization.Localizer;
 using System.Globalization;
 using System.Reflection.Metadata;
+using CsvHelper;
 
 namespace Recruitment.Localization
 {
@@ -32,17 +32,18 @@ namespace Recruitment.Localization
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Start Load Localizer");
-            var path = Path.Combine(_environment.ContentRootPath, "Files/Localization.csv");
+            var path = Path.Combine(_environment.ContentRootPath, "Localization/Files/Localization.csv");
             using (var reader = new StreamReader(path))
-            //using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            //{
-            //    var records = new List<LocalizationRecord>();
-            //    await foreach (var item in csv.GetRecordsAsync<LocalizationRecord>())
-            //        records.Add(item);
-            //    LoadStrings(records);
-            //}
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var records = new List<LocalizationRecord>();
+                await foreach (var item in csv.GetRecordsAsync<LocalizationRecord>())
+                    records.Add(item);
+                LoadStrings(records);
+            }
 
             _logger.LogInformation("End Load Localizer");
         }
+
     }
 }

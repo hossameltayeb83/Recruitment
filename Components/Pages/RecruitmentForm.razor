@@ -1,4 +1,5 @@
 ﻿@page "/{lang}/Recruitment/{link}"
+@using System.Globalization
 @inject IRecruitmentService _service;
 @inject ISetupKeyValueService _setupService;
 @inject IApplicantService _applicantService;
@@ -10,8 +11,8 @@
         </div>
         <div class="col-md-9">
             <div class="card-body">
-                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">Job: </span><span class="fs-5 fw-bold text-dark">@Recruitment.PositionName</span> </h5>
-                <h6 class="card-text text-info m-0 p-0">Job Summary: </h6>
+                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class="fs-5 fw-bold text-dark">@Recruitment.PositionName</span> </h5>
+                <h6 class="card-text text-info m-0 p-0">@Localizer.GetUi("PositionSummary"): </h6>
                 @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
                 {
 
@@ -28,19 +29,19 @@
             <div class="card-header m-0 mb-3 bg-primary text-white">
                 @Recruitment.PositionName
             </div>
-            <EditForm Model="Applicant" OnSubmit="Send">
-                <DataAnnotationsValidator/>
+            <EditForm Model="Applicant" OnValidSubmit="Send">
+                <DataAnnotationsValidator />
                 <div class="p-3">
                     @if (Applicant.IsDoctor)
                     {
-                        <h6 class="text-primary">Personal Information</h6>
+                        <h6 class="text-primary">@Localizer.GetUi("PersonalData")</h6>
                     }
                     <fieldset class="p-2 mb-2 mt-0 ">
                         <legend class="d-inline mr-3 mb-0"></legend>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
-                                    <label class="col-sm-12 m-0 d" for="FirstName">First Name <b style="color: red">*</b></label>
+                                    <label class="col-sm-12 m-0 d" for="FirstName">@Localizer.GetUi("FirstName") <b style="color: red">*</b></label>
 
                                     <div class="col-sm-12 input-control ">
                                         <InputText @bind-Value=Applicant.FirstName />
@@ -51,7 +52,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
-                                    <label class="col-sm-12 m-0 d" for="SecondName">Second Name <b style="color: red">*</b></label>
+                                    <label class="col-sm-12 m-0 d" for="SecondName">@Localizer.GetUi("SecondName") <b style="color: red">*</b></label>
 
                                     <div class="col-sm-12 input-control ">
                                         <InputText @bind-Value=Applicant.SecondName />
@@ -63,7 +64,7 @@
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="ThirdName">
-                                        Third Name
+                                        @Localizer.GetUi("ThirdName")
                                         @if (Applicant.IsDoctor)
                                         {
                                             <b style="color: red">*</b>
@@ -81,7 +82,8 @@
                                 <div class="col-md-6">
 
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="Title">Recruitment Title</label>
+                                        <label class="col-sm-12 m-0 d" for="Title">
+                                            @Localizer.GetUi("RecruitmentTitle")</label>
                                         <div class="col-sm-12 input-control ">
                                             <InputText @bind-Value=Applicant.Title />
                                             <ValidationMessage For="@(()=>Applicant.Title)"></ValidationMessage>
@@ -93,7 +95,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group  mb-3 row">
-                                    <label class="col-sm-12 m-0 d" for="PhoneNumber">Phone No<b style="color: red">*</b></label>
+                                    <label class="col-sm-12 m-0 d" for="PhoneNumber">@Localizer.GetUi("PhoneNumber")<b style="color: red">*</b></label>
                                     <div class="col-sm-12 input-control ">
                                         <InputText @bind-Value=Applicant.PhoneNumber />
                                         <ValidationMessage For="@(()=>Applicant.PhoneNumber)"></ValidationMessage>
@@ -105,7 +107,7 @@
                             {
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="Email">Email Address<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="Email">@Localizer.GetUi("Email")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             <InputText @bind-Value=Applicant.Email />
                                             <ValidationMessage For="@(()=>Applicant.Email)"></ValidationMessage>
@@ -115,17 +117,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="GenderID">Gender <b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="GenderID">@Localizer.GetUi("GenderID") <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Genders !=null && Genders.Count() > 0)
+                                            @if (Genders != null && Genders.Count() > 0)
                                             {
-                                                <select @bind="Applicant.GenderID" class="form-select">
-                                                    <option value="0">Select Gender</option>
+                                                <InputSelect @bind-Value="Applicant.GenderID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectGender")</option>
                                                     @foreach (var gender in Genders)
                                                     {
                                                         <option value="@gender.Id">@gender.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.GenderID)"></ValidationMessage>
                                         </div>
@@ -134,7 +136,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="BirthDate">Birth Date<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="BirthDate">@Localizer.GetUi("BirthDate")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             <InputDate @bind-Value=Applicant.BirthDate></InputDate>
                                             <ValidationMessage For="@(()=>Applicant.BirthDate)"></ValidationMessage>
@@ -145,17 +147,19 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="MartialStatusID">Martial Status<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="MartialStatusID">
+                                            @Localizer.GetUi("ErpMartialStatusID")<b style="color: red">*</b>
+                                        </label>
                                         <div class="col-sm-12 input-control ">
                                             @if (MartialStatuses != null && MartialStatuses.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpMartialStatusID" class="form-select">
-                                                    <option value="0">Select Martial Status</option>
+                                                <InputSelect @bind-Value="Applicant.ErpMartialStatusID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectMartialStatus")</option>
                                                     @foreach (var item in MartialStatuses)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpMartialStatusID)"></ValidationMessage>
                                         </div>
@@ -164,17 +168,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="MilitryStatusID">Militry Status<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="MilitryStatusID">@Localizer.GetUi("ErpMilitryStatusID")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (MilitaryStatuses!=null &&MilitaryStatuses.Count() > 0)
+                                            @if (MilitaryStatuses != null && MilitaryStatuses.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpMilitryStatusID" class="form-select">
-                                                    <option value="0">Select Militry Status</option>
+                                                <InputSelect @bind-Value="Applicant.ErpMilitryStatusID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectMilitaryStatus")</option>
                                                     @foreach (var item in MilitaryStatuses)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpMilitryStatusID)"></ValidationMessage>
                                         </div>
@@ -183,7 +187,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="Address">Address<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="Address">@Localizer.GetUi("Address")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             <InputText @bind-Value=Applicant.Address />
                                             <ValidationMessage For="@(()=>Applicant.Address)"></ValidationMessage>
@@ -197,13 +201,13 @@
                     @if (Applicant.IsDoctor)
                     {
 
-                        <h6 class="text-primary mt-3">DoctorDegree</h6>
+                        <h6 class="text-primary mt-3">@Localizer.GetUi("ErpDoctorDegreeID")</h6>
                         <fieldset class="card p-2 my-2 py-4 ">
                             <legend class="d-inline mr-3 mb-0"></legend>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="GraduationYear">Year Of Graduation<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="GraduationYear">@Localizer.GetUi("GraduationYear")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             <InputNumber @bind-Value=Applicant.GraduationYear Min="1980" Max="@DateTime.Now.Year"></InputNumber>
                                             <ValidationMessage For="@(()=>Applicant.GraduationYear)"></ValidationMessage>
@@ -213,17 +217,18 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="University">University<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="University">@Localizer.GetUi("ErpUniversityID")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
-                                            @if (Universities !=null && Universities.Count() > 0)
+                                            @if (Universities != null && Universities.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpUniversityID" class="form-select">
-                                                    <option value="0">Select University</option>
+                                                <InputSelect @bind-Value="Applicant.ErpUniversityID" class="form-select" TValue="decimal?">
+                                                    <option value="0">
+                                                        @Localizer.GetUi("SelectUniversity")</option>
                                                     @foreach (var item in Universities)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpUniversityID)"></ValidationMessage>
                                         </div>
@@ -232,27 +237,27 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="DoctorDegreeID">Doctor Degree<b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="DoctorDegreeID">@Localizer.GetUi("ErpDoctorDegreeID")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @if (DoctorDegrees != null && DoctorDegrees.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpDoctorDegreeID" class="form-select">
-                                                    <option value="0">Select Degree</option>
+                                                <InputSelect @bind-Value="Applicant.ErpDoctorDegreeID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectDegree")</option>
                                                     @foreach (var item in DoctorDegrees)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpDoctorDegreeID)"></ValidationMessage>
                                         </div>
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="DoctorDegreeDate">Doctor Degree Date</label>
+                                        <label class="col-sm-12 m-0 d" for="DoctorDegreeDate">@Localizer.GetUi("DoctorDegreeDate")</label>
                                         <div class="col-sm-12 input-control ">
                                             <InputDate @bind-Value=Applicant.DoctorDegreeDate />
                                             <ValidationMessage For="@(()=>Applicant.DoctorDegreeDate)"></ValidationMessage>
@@ -262,17 +267,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="SpecialtyID"> <strong>SpecialtyID</strong>  <b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="ErpSpecialtyID">@Localizer.GetUi("ErpSpecialtyID")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @if (Specialities != null && Specialities.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpSpecialtyID" class="form-select">
-                                                    <option value="0">Select Speciality</option>
+                                                <InputSelect @bind-Value="Applicant.ErpSpecialtyID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectSpeciality")</option>
                                                     @foreach (var item in Specialities)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpSpecialtyID)"></ValidationMessage>
                                         </div>
@@ -281,17 +286,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">Other Specialty </label>
+                                        <label class="col-sm-12 m-0 d" for="OtherSpecialtyID">@Localizer.GetUi("ErpOtherSpecialtyID") </label>
                                         <div class="col-sm-12 input-control ">
                                             @if (OtherSpecialities != null && OtherSpecialities.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpOtherSpecialtyID" class="form-select">
-                                                    <option value="0">Select Speciality</option>
+                                                <InputSelect @bind-Value="Applicant.ErpOtherSpecialtyID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectSpeciality")</option>
                                                     @foreach (var item in OtherSpecialities)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpOtherSpecialtyID)"></ValidationMessage>
                                         </div>
@@ -301,17 +306,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="BranchID">Branch <b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="BranchID">@Localizer.GetUi("ErpBranchID")<b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @if (Branches != null && Branches.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpBranchID" class="form-select">
-                                                    <option value="0">Select Branch</option>
+                                                <InputSelect @bind-Value="Applicant.ErpBranchID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectBranch")</option>
                                                     @foreach (var item in Branches)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpBranchID)"></ValidationMessage>
                                         </div>
@@ -320,17 +325,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d" for="AreaCityID">Residence Area / Governate <b style="color: red">*</b></label>
+                                        <label class="col-sm-12 m-0 d" for="AreaCityID">@Localizer.GetUi("ErpAreaCityID") <b style="color: red">*</b></label>
                                         <div class="col-sm-12 input-control ">
                                             @if (AreaCities != null && AreaCities.Count() > 0)
                                             {
-                                                <select @bind="Applicant.ErpAreaCityID" class="form-select">
-                                                    <option value="0">Select Area</option>
+                                                <InputSelect @bind-Value="Applicant.ErpAreaCityID" class="form-select" TValue="decimal?">
+                                                    <option value="0">@Localizer.GetUi("SelectArea")</option>
                                                     @foreach (var item in AreaCities)
                                                     {
                                                         <option value="@item.Id">@item.Value.ToString()</option>
                                                     }
-                                                </select>
+                                                </InputSelect>
                                             }
                                             <ValidationMessage For="@(()=>Applicant.ErpAreaCityID)"></ValidationMessage>
                                         </div>
@@ -339,7 +344,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group  mb-3 row">
-                                        <label class="col-sm-12 m-0 d">Experience </label>
+                                        <label class="col-sm-12 m-0 d">@Localizer.GetUi("ApplicantNotes") </label>
                                         <div class="col-sm-12 input-control">
                                             <InputText @bind-Value=Applicant.ApplicantNotes />
                                             <ValidationMessage For="@(()=>Applicant.ApplicantNotes)"></ValidationMessage>
@@ -351,11 +356,11 @@
                         </fieldset>
                     }
                     <div class="form-group d-flex justify-content-start mt-5  mb-3 ">
-                        <label class="m-0 " for="CV">CV</label>
+                        <label class="m-0 " for="CV">@Localizer.GetUi("CV")</label>
 
                         <div class="d-flex flex-row align-middle">
                             <InputFile OnChange="LoadCV"></InputFile>
-                            <small class="d-block me-2 ms-1" style="color: red">CV Maximum Size 500 kb</small>
+                            <small class="d-block me-2 ms-1" style="color: red">@Localizer.GetUi("MaxSize")</small>
                             <ValidationMessage For="@(()=>Applicant.CV)"></ValidationMessage>
                         </div>
 
@@ -363,7 +368,7 @@
                     <div class="form-group  my-5 row">
 
                         <div class="col-sm-8 mx-auto ">
-                            <button type="submit" class="btn btn-success btn-lg w-100">Send</button>
+                            <button type="submit" class="btn btn-success btn-lg w-100">@Localizer.GetUi("Send")</button>
                         </div>
                     </div>
                 </div>
@@ -377,7 +382,7 @@
     public Models.Recruitment Recruitment { get; set; }
     public decimal PositionDepartmentID { get; set; }
 
-    public List<KeyValue> Branches{ get; set; }
+    public List<KeyValue> Branches { get; set; }
     public List<KeyValue> DoctorDegrees { get; set; }
     public List<KeyValue> Genders { get; set; }
     public List<KeyValue> MilitaryStatuses { get; set; }
