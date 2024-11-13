@@ -4,6 +4,7 @@
 @inject ISetupKeyValueService _setupService;
 @inject IApplicantService _applicantService;
 
+
 <div class="card mb-3">
     <div class="row g-0">
         <div class="col-md-3 text-center ">
@@ -378,6 +379,8 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public CzAlert _czAlert { get; set; }
     public ApplicantDto Applicant { get; set; } = new();
     public Models.Recruitment Recruitment { get; set; }
     public decimal PositionDepartmentID { get; set; }
@@ -439,11 +442,20 @@
         }
         catch (Exception ex)
         {
-            
+
         }
     }
     private async Task Send()
     {
-        await _applicantService.SaveApplicant(Applicant);
+        try
+        {
+
+            await _applicantService.SaveApplicant(Applicant);
+            _czAlert.ShowSuccess("successs");
+        }
+        catch
+        {
+            _czAlert.ShowDanger("An Error Occurred");
+        }
     }
 }

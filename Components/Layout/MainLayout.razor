@@ -1,19 +1,21 @@
 ﻿@inherits LayoutComponentBase
 @using System.Globalization
-
+@using Rec=Recruitment.Components.Shared;
 <div class="page">
     @* <div class="sidebar">
-        <NavMenu />
+    <NavMenu />
     </div> *@
 
     <main>
         @* <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div> *@
 
         <article class="content px-4">
             <div class="container" dir="@(CultureInfo.CurrentCulture.Name == "ar-EG" ? "rtl" : "ltr")" lang="@(CultureInfo.CurrentCulture.Name)">
-            @Body
+                @* <Recruitment.Components.Shared.CzAlert @ref="_alert"> *@
+                    @Body
+                    @* </Recruitment.Components.Shared.CzAlert> *@
             </div>
         </article>
     </main>
@@ -24,3 +26,6 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+@code {
+    // private Rec.CzAlert _alert;
+}

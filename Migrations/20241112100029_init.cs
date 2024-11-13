@@ -136,6 +136,8 @@ namespace Recruitment.Migrations
                 columns: table => new
                 {
                     ErpDepartmentPositionID = table.Column<decimal>(type: "TEXT", nullable: false),
+                    ErpEmployeeCategoryID = table.Column<decimal>(type: "TEXT", nullable: false),
+                    EmployeeCategoryName = table.Column<string>(type: "TEXT", nullable: false),
                     IsDoctor = table.Column<bool>(type: "INTEGER", nullable: false),
                     PositionName = table.Column<string>(type: "TEXT", nullable: false),
                     PositionSummary = table.Column<string>(type: "TEXT", nullable: true),

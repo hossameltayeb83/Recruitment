@@ -2,7 +2,8 @@
 using Recruitment.Data;
 using Recruitment.Dtos;
 using Recruitment.Enums;
-using System.Security.Cryptography;
+using Recruitment.Helper;
+using System.Web;
 
 namespace Recruitment.Services
 {
@@ -14,22 +15,20 @@ namespace Recruitment.Services
         {
             _context = context;
         }
-        public decimal? ExtractPositionDepartmentFromLink(string link)
-        {
-            return null;
-        }
 
         public async Task<List<decimal>> GetRecruitmentIds()
         {
            return await _context.Recruitments.Select(e => e.ErpDepartmentPositionID).ToListAsync();
         }
-
+        public string GenerateRecruitmentLink(decimal departmentPositionId)
+        {
+            return HttpUtility.UrlEncode(GenericHelper.EncryptString(departmentPositionId.ToString()));
+        }
         public async Task<Models.Recruitment> GetRecruitmentFromLinkAsync(string link)
         {
-            var stringLink = DecryptGeneric(link);
-            decimal.TryParse(stringLink, out var departmentPositionID);
-            var v = await _context.Recruitments.ToListAsync();
-            return _context.Recruitments.FirstOrDefault(e => e.ErpDepartmentPositionID == departmentPositionID);
+            var decodedLink = GenericHelper.DecryptGeneric(link);
+            decimal.TryParse(decodedLink, out var departmentPositionID);
+            return await _context.Recruitments.FirstOrDefaultAsync(e=>e.ErpDepartmentPositionID == departmentPositionID);
         }
         public async Task HandleRecruitmentsSentFromErp(List<RecruitmentDto> recruitments)
         {
@@ -68,50 +67,28 @@ namespace Recruitment.Services
             await _context.SaveChangesAsync();
         }
 
-        internal static string DecryptGeneric(string Message)
+        
+
+        
+
+        public async Task<List<KeyValue>> GetAvailableRecruitments(string? positionName, decimal? employeCategoryId)
         {
-            return DecryptString(Message, "SystemCZ310");
+            var query = _context.Recruitments.Where(e => e.LinkExpiryDate > DateTime.Now);
+            if (positionName != null)
+                query = query.Where(e => positionName.Contains(e.PositionName));
+            if (employeCategoryId != null)
+                query = query.Where(e => e.ErpEmployeeCategoryID==employeCategoryId );
+            return await query.Select(e => new KeyValue { Id =e.ErpDepartmentPositionID, Value = e.PositionName }).ToListAsync();
         }
 
-        internal static string DecryptString(string Message, string Passphrase)
+        public Task<List<KeyValue>> GetAvailableRecruitments()
         {
-            byte[] Results;
-            System.Text.UTF8Encoding UTF8 = new System.Text.UTF8Encoding();
-
-            // Step 1. We hash the passphrase using MD5
-            // We use the MD5 hash generator as the result is a 128 bit byte array
-            // which is a valid length for the TripleDES encoder we use below
-
-            MD5CryptoServiceProvider HashProvider = new MD5CryptoServiceProvider();
-            byte[] TDESKey = HashProvider.ComputeHash(UTF8.GetBytes(Passphrase));
-
-            // Step 2. Create a new TripleDESCryptoServiceProvider object
-            TripleDESCryptoServiceProvider TDESAlgorithm = new TripleDESCryptoServiceProvider();
-
-            // Step 3. Setup the decoder
-            TDESAlgorithm.Key = TDESKey;
-            TDESAlgorithm.Mode = CipherMode.ECB;
-            TDESAlgorithm.Padding = PaddingMode.PKCS7;
-
-            // Step 4. Convert the input string to a byte[]
-            byte[] DataToDecrypt = Convert.FromBase64String(Message);
-
-            // Step 5. Attempt to decrypt the string
-            try
-            {
-                ICryptoTransform Decryptor = TDESAlgorithm.CreateDecryptor();
-                Results = Decryptor.TransformFinalBlock(DataToDecrypt, 0, DataToDecrypt.Length);
-            }
-            finally
-            {
-                // Clear the TripleDes and Hashprovider services of any sensitive information
-                TDESAlgorithm.Clear();
-                HashProvider.Clear();
-            }
-
-            // Step 6. Return the decrypted string in UTF8 format
-            return UTF8.GetString(Results);
+            return GetAvailableRecruitments(null,null);
         }
 
+        public Task<List<KeyValue>> GetAvailableCategories()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

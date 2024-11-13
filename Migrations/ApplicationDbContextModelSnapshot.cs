@@ -225,6 +225,13 @@ namespace Recruitment.Migrations
                     b.Property<decimal>("ErpDepartmentPositionID")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EmployeeCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("ErpEmployeeCategoryID")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsDoctor")
                         .HasColumnType("INTEGER");
 
