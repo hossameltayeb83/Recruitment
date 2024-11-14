@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recruitment.Common;
 using Recruitment.Dtos;
 using Recruitment.Enums;
 using Recruitment.Models;
+using Recruitment.Security;
 using Recruitment.Services;
 using System.Text.Json;
 
@@ -11,6 +13,7 @@ namespace Recruitment.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
+    [ApiKeyAuth]
     public class ErpController : ControllerBase
     {
         private readonly IPositionService _positionRepository;
@@ -41,6 +44,8 @@ namespace Recruitment.Controllers
             return Ok();
         }
         [HttpGet]
+        [ApiKeyAuth]
+
         public async Task<IActionResult> GetApplicants()
         {
 

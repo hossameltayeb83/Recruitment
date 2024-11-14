@@ -10,9 +10,17 @@ namespace Recruitment.Attributes
         // Custom StringLength attribute with localization
         public class LocalizedStringLengthAttribute : StringLengthAttribute
         {
+            private readonly string _errorMessageKey;
+
             public LocalizedStringLengthAttribute(int maximumLength, string errorMessageKey) : base(maximumLength)
             {
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
+            }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
             }
         }
 
@@ -20,18 +28,33 @@ namespace Recruitment.Attributes
         // Custom Required attribute with localization
         public class LocalizedRequiredAttribute : RequiredAttribute
         {
+            private readonly string _errorMessageKey;
             public LocalizedRequiredAttribute(string errorMessageKey)
             {
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
+            }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
             }
         }
 
         // Custom RegularExpression attribute with localization
         public class LocalizedRegularExpressionAttribute : RegularExpressionAttribute
         {
+            private readonly string _errorMessageKey;
+
             public LocalizedRegularExpressionAttribute(string pattern, string errorMessageKey) : base(pattern)
             {
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
+            }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
             }
         }
 
@@ -42,11 +65,12 @@ namespace Recruitment.Attributes
         public class SpacesAttribute : ValidationAttribute
         {
             private readonly int _maxSpaces;
+            private readonly string _errorMessageKey;
 
             public SpacesAttribute(int maxSpaces, string errorMessageKey)
             {
                 _maxSpaces = maxSpaces;
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
             }
 
             public override bool IsValid(object value)
@@ -69,18 +93,32 @@ namespace Recruitment.Attributes
 
                 return result;
             }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
+            }
         }
 
         public class NotAllowFutureDate : ValidationAttribute
         {
+            private readonly string _errorMessageKey;
+
             public NotAllowFutureDate(string errorMessageKey)
             {
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
             }
 
             public override bool IsValid(object value)
             {
                 return value is DateTime date && date < DateTime.Now;
+            }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
             }
         }
         public class ValidOption : ValidationAttribute
@@ -100,11 +138,12 @@ namespace Recruitment.Attributes
         public class MinimumAgeAttribute : ValidationAttribute
         {
             private readonly int _minimumAge;
+            private readonly string _errorMessageKey;
 
             public MinimumAgeAttribute(int minimumAge, string errorMessageKey)
             {
                 _minimumAge = minimumAge;
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
             }
 
             public override bool IsValid(object value)
@@ -115,23 +154,31 @@ namespace Recruitment.Attributes
                 }
                 return false;
             }
+
+            public override string FormatErrorMessage(string name)
+            {
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
+            }
         }
 
         public class CustomYearRangeAttribute : ValidationAttribute
         {
             private readonly int _minYear;
             private readonly int _maxYear;
+            private readonly string _errorMessageKey;
 
             public CustomYearRangeAttribute(int minYear, string errorMessageKey)
             {
                 _minYear = minYear;
                 _maxYear = DateTime.Now.Year;
-                ErrorMessage = Localizer.GetString(errorMessageKey);
+                _errorMessageKey = errorMessageKey;
             }
 
             public override string FormatErrorMessage(string name)
             {
-                return $"{name} must be between {_minYear} and {_maxYear}.";
+                var localizedErrorMessage = Localizer.GetString(_errorMessageKey);
+                return string.IsNullOrEmpty(localizedErrorMessage) ? base.FormatErrorMessage(name) : localizedErrorMessage;
             }
 
             protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -155,6 +202,8 @@ namespace Recruitment.Attributes
 
                 return ValidationResult.Success;
             }
+
+           
         }
 
         #endregion

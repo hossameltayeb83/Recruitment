@@ -20,14 +20,17 @@ namespace Recruitment.Localization
                 {
                     var path = context.Request.Path.Value; // Get the full URL path
                     string? userCulture;
-                    if (path.Contains("/ar/") || path.Contains("/en/"))
+                    var pathSegments = path.Split('/');
+                    var lang = pathSegments[1];
+                    if (lang == "ar" || lang == "en")
                     {
-                        userCulture = path.Contains("/en/") ? "en-US" : "ar-EG";
+                        userCulture = lang == "en" ? "en-US" : "ar-EG";
                         context.Request.Headers.TryGetValue("UserCulture", out var userCultures);
                         if (userCultures.Any())
                             userCulture = userCultures.First();
                         Console.WriteLine($"Request Path: {path}");
                         Console.WriteLine($"User Culture: {userCulture}");
+                        Console.WriteLine($"User lang: {lang}");
                         
                         context.Response.Cookies.Append("UserCulture", userCulture, new CookieOptions
                         {
