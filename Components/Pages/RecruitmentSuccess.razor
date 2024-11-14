@@ -1,0 +1,12 @@
+﻿@page "/{lang}/Success"
+<HeaderComponent lang=@lang></HeaderComponent>
+<div class="card" style="width: 25rem; margin:40px auto;">
+  <div class="card-body text-center">
+        <h5 class="card-title text-success">@Localizer.GetUi("Send")</h5>
+ </div>
+  </div>
+
+@code {
+    [Parameter]
+    public string lang { get; set; }
+}

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Recruitment.Models
 {
-    public class Recruitment
+    public class Position
     {
-        public Recruitment()
+        public Position()
         {
             
         }
-        public Recruitment(RecruitmentDto dto)
+        public Position(PositionDto dto)
         {
             ErpDepartmentPositionID = dto.ErpDepartmentPositionID;
             ErpEmployeeCategoryID = dto.ErpEmployeeCategoryID;

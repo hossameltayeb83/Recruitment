@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
 @using System.Globalization
-@using Rec=Recruitment.Components.Shared;
 <div class="page">
     @* <div class="sidebar">
     <NavMenu />
@@ -13,9 +12,9 @@
 
         <article class="content px-4">
             <div class="container" dir="@(CultureInfo.CurrentCulture.Name == "ar-EG" ? "rtl" : "ltr")" lang="@(CultureInfo.CurrentCulture.Name)">
-                @* <Recruitment.Components.Shared.CzAlert @ref="_alert"> *@
+                <CzAlert @ref="_alert">
                     @Body
-                    @* </Recruitment.Components.Shared.CzAlert> *@
+                    </CzAlert>
             </div>
         </article>
     </main>
@@ -27,5 +26,5 @@
     <a class="dismiss">🗙</a>
 </div>
 @code {
-    // private Rec.CzAlert _alert;
+    private CzAlert _alert;
 }

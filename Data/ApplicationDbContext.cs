@@ -12,7 +12,7 @@ namespace Recruitment.Data
         public DbSet<Gender> Genders { get; set;}
         public DbSet<MartialStatus> MartialStatuses { get; set;}
         public DbSet<MilitaryStatus> MilitaryStatuses { get; set;}
-        public DbSet<Models.Recruitment> Recruitments { get; set;}
+        public DbSet<Position> Positions { get; set;}
         public DbSet<Speciality> Specialities { get; set;}
         public DbSet<University> Universities { get; set;}
         public ApplicationDbContext(DbContextOptions options) : base(options) { }

@@ -84,7 +84,16 @@ namespace Recruitment.Services
         }
         public async Task<List<KeyValue>> GetKeyValueList<TSetup>(string lang,bool hasParent=false) where TSetup: SetupKeyValue
         {
-            return await _context.Set<TSetup>().Where(e=>e.HasParent==hasParent).Select(e=> PrepareKeyValue(e,lang)).ToListAsync();
+            var query = _context.Set<TSetup>().Where(e => e.HasParent == hasParent);
+            if (lang == null || lang == "ar")
+            { 
+                query = query.OrderBy(e=>e.ValueAr);
+            }
+            else
+            {
+                query = query.OrderBy(e => e.ValueEn);
+            }
+            return await query.Select(e=> PrepareKeyValue(e,lang)).ToListAsync();
         }
         private static KeyValue PrepareKeyValue(SetupKeyValue setupKeyValue,string lang)
         {

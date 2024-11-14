@@ -1,39 +1,45 @@
 ﻿@page "/{lang}/Recruitment/{link}"
 @using System.Globalization
-@inject IRecruitmentService _service;
-@inject ISetupKeyValueService _setupService;
-@inject IApplicantService _applicantService;
-
-
-<div class="card mb-3">
+@inject IPositionService _positionService
+@inject ISetupKeyValueService _setupService
+@inject IApplicantService _applicantService
+@inject NavigationManager _navManager
+<HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang>
+    <h6 class="card-title text-info fs-4 fw-bold"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class=" text-dark">@Position.PositionName</span> </h6>
+    <h5 class="card-title text-info fs-6 fw-bold">
+        <span style="display: inline-flex">@Localizer.GetUi("OrganizationName"): </span>
+        <span class=" text-dark">@Position.OrganizationName</span>
+    </h5>
+</HeaderComponent>
+@* <div class="card mb-3">
     <div class="row g-0">
         <div class="col-md-3 text-center ">
             <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="Logo" />
         </div>
         <div class="col-md-9">
             <div class="card-body">
-                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class="fs-5 fw-bold text-dark">@Recruitment.PositionName</span> </h5>
+                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class="fs-5 fw-bold text-dark">@Position.PositionName</span> </h5>
                 <h6 class="card-text text-info m-0 p-0">@Localizer.GetUi("PositionSummary"): </h6>
-                @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
+                @if (!string.IsNullOrEmpty(Position.PositionSummary))
                 {
 
-                    <p>@Recruitment.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 <div class="d-flex justify-content-center">
     <div class="col-md-10 m-auto">
         <div class="card m-0 pt-0">
             <div class="card-header m-0 mb-3 bg-primary text-white">
-                @Recruitment.PositionName
+                @Position.PositionName
             </div>
-            <EditForm Model="Applicant" OnValidSubmit="Send">
+            <EditForm EditContext="editContext" OnInvalidSubmit="Send">
                 <DataAnnotationsValidator />
                 <div class="p-3">
-                    @if (Applicant.IsDoctor)
+                    @if (Position.IsDoctor)
                     {
                         <h6 class="text-primary">@Localizer.GetUi("PersonalData")</h6>
                     }
@@ -66,7 +72,7 @@
                                 <div class="form-group  mb-3 row">
                                     <label class="col-sm-12 m-0 d" for="ThirdName">
                                         @Localizer.GetUi("ThirdName")
-                                        @if (Applicant.IsDoctor)
+                                        @if (Position.IsDoctor)
                                         {
                                             <b style="color: red">*</b>
                                         }
@@ -78,7 +84,7 @@
                                 </div>
                             </div>
 
-                            @if (!Applicant.IsDoctor)
+                            @if (Position.IsDoctor)
                             {
                                 <div class="col-md-6">
 
@@ -104,7 +110,7 @@
                                 </div>
                             </div>
 
-                            @if (!Applicant.IsDoctor)
+                            @if (!Position.IsDoctor)
                             {
                                 <div class="col-md-6">
                                     <div class="form-group  mb-3 row">
@@ -199,7 +205,7 @@
                         </div>
 
                     </fieldset>
-                    @if (Applicant.IsDoctor)
+                    @if (Position.IsDoctor)
                     {
 
                         <h6 class="text-primary mt-3">@Localizer.GetUi("ErpDoctorDegreeID")</h6>
@@ -381,10 +387,11 @@
 @code {
     [CascadingParameter]
     public CzAlert _czAlert { get; set; }
-    public ApplicantDto Applicant { get; set; } = new();
-    public Models.Recruitment Recruitment { get; set; }
+    public ApplicantDto Applicant { get; set; }
+    public Position Position { get; set; }
     public decimal PositionDepartmentID { get; set; }
-
+    private EditContext editContext;
+    private ValidationMessageStore messageStore;
     public List<KeyValue> Branches { get; set; }
     public List<KeyValue> DoctorDegrees { get; set; }
     public List<KeyValue> Genders { get; set; }
@@ -402,19 +409,35 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrWhiteSpace(link))
-        {
-            await LoadRecruitmentDataAsync();
-        }
-    }
+        // if (Position.IsDoctor)
+        // {
+        //     BaseApplicant = (DoctorApplicant)BaseApplicant;
+        //     editContext = new(BaseApplicant);
 
-    private async Task LoadRecruitmentDataAsync()
+        // }
+        // else
+        // {
+        //     BaseApplicant = (NormalApplicant)BaseApplicant;
+        //     editContext = new(BaseApplicant);
+        // }
+        Applicant ??= new();
+        editContext = new(Applicant);
+        await LoadPositionDataAsync();
+    }
+    private void HandleValidation(object? sender,
+        ValidationRequestedEventArgs args)
     {
-        Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
-        if (Recruitment != null)
+        messageStore?.Clear();
+
+        // Custom validation logic
+    }
+    private async Task LoadPositionDataAsync()
+    {
+        Position = await _positionService.GetPositionFromLinkAsync(link);
+        if (Position != null)
         {
-            Applicant.IsDoctor = Recruitment.IsDoctor;
-            Applicant.ErpDepartmentPositionID = Recruitment.ErpDepartmentPositionID;
+            Applicant.IsDoctor = Position.IsDoctor;
+            Applicant.ErpDepartmentPositionID = Position.ErpDepartmentPositionID;
             Applicant.ApiApplicantId = _applicantService.GetNewId();
         }
         Branches = await _setupService.GetKeyValueList<Branch>(lang);
@@ -445,17 +468,64 @@
 
         }
     }
+    public async Task ChangeLanguage(string newlang)
+    {
+        lang = newlang;
+        StateHasChanged();
+    }
+    // private async Task Send()
+    // {
+    //     try
+    //     {
+
+    //         // await _applicantService.SaveApplicant(Applicant);
+    //         _czAlert.ShowSuccess("successs");
+    //     }
+    //     catch
+    //     {
+    //         _czAlert.ShowDanger("An Error Occurred");
+    //     }
+    // }
     private async Task Send()
     {
-        try
-        {
+        bool valid=true;
+        valid = editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.FirstName)));
+        valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.SecondName)));
 
-            await _applicantService.SaveApplicant(Applicant);
-            _czAlert.ShowSuccess("successs");
-        }
-        catch
+        valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ThirdName)));
+
+        if (Position.IsDoctor)
         {
-            _czAlert.ShowDanger("An Error Occurred");
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.GraduationYear)));
+
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpUniversityID)));
+
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.DoctorDegreeDate)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpSpecialtyID)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpBranchID)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpAreaCityID)));
+        }
+        else
+        {
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.Email)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.GenderID)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.BirthDate)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpMilitryStatusID)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.ErpMartialStatusID)));
+            valid = valid && editContext.IsValid(new FieldIdentifier(Applicant, nameof(Applicant.Address)));
+        }
+        if (valid)
+        {
+            try
+            {
+                await _applicantService.SaveApplicant(Applicant);
+                _navManager.NavigateTo($"/{lang}/Success");
+
+            }
+            catch
+            {
+                _czAlert.ShowDanger("An Error Occurred");
+            }
         }
     }
 }

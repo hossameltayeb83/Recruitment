@@ -2,7 +2,7 @@
 
 namespace Recruitment.Dtos
 {
-    public class RecruitmentDto
+    public class PositionDto
     {
         public EventType EventType { get; set; }
         public decimal ErpDepartmentPositionID { get; set; }

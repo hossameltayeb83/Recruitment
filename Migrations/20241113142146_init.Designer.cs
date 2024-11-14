@@ -11,7 +11,7 @@ using Recruitment.Data;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241112100029_init")]
+    [Migration("20241113142146_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -223,7 +223,7 @@ namespace Recruitment.Migrations
                     b.ToTable("MilitaryStatuses");
                 });
 
-            modelBuilder.Entity("Recruitment.Models.Recruitment", b =>
+            modelBuilder.Entity("Recruitment.Models.Position", b =>
                 {
                     b.Property<decimal>("ErpDepartmentPositionID")
                         .HasColumnType("TEXT");
@@ -266,7 +266,7 @@ namespace Recruitment.Migrations
 
                     b.HasKey("ErpDepartmentPositionID");
 
-                    b.ToTable("Recruitments");
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("Recruitment.Models.Speciality", b =>

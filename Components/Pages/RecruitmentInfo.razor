@@ -1,44 +1,31 @@
 ﻿@page "/{lang}/RecruitmentInfo/{link}"
-@inject IRecruitmentService _service
-@inject ISetupKeyValueService _keyValueservice
- 
-<div class="col-lg-12">
-    <div class="card mb-3 p-3">
-        <div class="row g-0">
-            <div class="col-md-3 text-center ">
-                <img src="/Logo.webp" class="img-fluid rounded-start m-auto" />
+@inject IPositionService _positionService
+<HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang>
+    <h6 class="card-title text-info fs-4 fw-bold"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class=" text-dark">@Position.PositionName</span> </h6>
+    <h5 class="card-title text-info fs-6 fw-bold">
+        <span style="display: inline-flex">@Localizer.GetUi("OrganizationName"): </span>
+        <span class=" text-dark">@Position.OrganizationName</span>
+    </h5>
+    @if (Position != null)
+    {
+        @if (Position.LinkExpiryDate > DateTime.Now)
+        {
+            <div class=" ">
+                <button class="btn btn-success btn-md" @onclick="NavigateToRecruitmentForm">@Localizer.GetUi("Apply")</button>
             </div>
-            <div class="col-md-9">
-                <div class="card-body">
-                    <h6 class="card-title text-info fs-4 fw-bold"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class=" text-dark">@Recruitment.PositionName</span> </h6>
-                    <h5 class="card-title text-info fs-6 fw-bold">
-                        <span style="display: inline-flex">@Localizer.GetUi("OrganizationName"): </span>
-                        <span class=" text-dark">@Recruitment.OrganizationName</span>
-                    </h5>
-                    @if (Recruitment != null)
-                    {
-                        @if (Recruitment.LinkExpiryDate > DateTime.Now)
-                        {
-                            <div class=" ">
-                                <button class="btn btn-success btn-md" @onclick="NavigateToRecruitmentForm">@Localizer.GetUi("Apply")</button>
-                            </div>
 
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        }
+    }
+</HeaderComponent>
 <div class="row m-0 p-0">
     <div class="col-md-8 ">
         <div class="card mb-3 p-3">
             <div class="col">
                 <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">@Localizer.GetUi("PositionSummary")</h3>
-                @if (!string.IsNullOrEmpty(Recruitment.PositionSummary))
+                @if (!string.IsNullOrEmpty(Position.PositionSummary))
                 {
 
-                    <p>@Recruitment.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
@@ -48,10 +35,10 @@
 
             <div class="col">
                 <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">@Localizer.GetUi("PositionDetails")</h3>
-                @if (!string.IsNullOrEmpty(Recruitment.PositionDetails))
+                @if (!string.IsNullOrEmpty(Position.PositionDetails))
                 {
 
-                    <p>@Recruitment.PositionDetails.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.PositionDetails.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
@@ -61,14 +48,14 @@
 
             <div class="col">
                 <h3 class="card-title text-primary fw-bold m-0 mb-2 fs-5">@Localizer.GetUi("PositionRequirements")</h3>
-                @if (!string.IsNullOrEmpty(Recruitment.PositionRequirements))
+                @if (!string.IsNullOrEmpty(Position.PositionRequirements))
                 {
 
-                    <p>@Recruitment.PositionRequirements.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.PositionRequirements.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
-        @if (Recruitment.LinkExpiryDate > DateTime.Now)
+        @if (Position.LinkExpiryDate > DateTime.Now)
         {
             <div class="mb-5 ">
                 <button class="btn btn-success btn-md" @onclick="NavigateToRecruitmentForm">@Localizer.GetUi("Apply")</button>
@@ -83,10 +70,10 @@
                 <h6 class="text-dark  m-0">@Localizer.GetUi("OrganizationVision")</h6>
             </div>
             <div class="" style="height: 160px; overflow-y:auto; padding:5px 10px;">
-                @if (!string.IsNullOrEmpty(Recruitment.OrganizationVision))
+                @if (!string.IsNullOrEmpty(Position.OrganizationVision))
                 {
 
-                    <p>@Recruitment.OrganizationVision.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.OrganizationVision.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
@@ -97,10 +84,10 @@
             </div>
 
             <div class="" style="height: 160px; overflow-y:auto; padding:5px 10px;">
-                @if (!string.IsNullOrEmpty(Recruitment.OrganizationMission))
+                @if (!string.IsNullOrEmpty(Position.OrganizationMission))
                 {
 
-                    <p>@Recruitment.OrganizationMission.Replace(Environment.NewLine, "<br>")</p>
+                    <p>@Position.OrganizationMission.Replace(Environment.NewLine, "<br>")</p>
                 }
             </div>
         </div>
@@ -112,7 +99,7 @@
 
 
 @code {
-    public Models.Recruitment? Recruitment { get; set; } = new();
+    public Position Position { get; set; } = new();
     [Parameter]
     public string link { get; set; }
     [Parameter]
@@ -121,8 +108,7 @@
     {
         if (!string.IsNullOrWhiteSpace(link))
         {
-            // var x= await _keyValueservice.GetKeyValueList<Gender>();
-            Recruitment = await _service.GetRecruitmentFromLinkAsync(link);
+            Position = await _positionService.GetPositionFromLinkAsync(link);
         }
         await base.OnParametersSetAsync();
     }
@@ -133,5 +119,10 @@
     private void NavigateToRecruitmentForm()
     {
         NavigationManager.NavigateTo($"/{lang}/Recruitment/{Uri.EscapeDataString(link)}");
+    }
+    public async Task ChangeLanguage(string newlang)
+    {
+        lang = newlang;
+        StateHasChanged();
     }
 }

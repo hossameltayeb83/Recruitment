@@ -79,3 +79,4 @@ AgeError,يجب ان تكون 15 فأكثر للتقدم,You must be older than 
 PhoneNumberError,يجب ان يحتوي التليفون علي 11 رقم فاكثر,Phone number must contain only numbers and be at least 11 digits long.
 EmailError,ادخل بريد الكتروني صحيح,Please enter a valid email address.
 GraduationYearError,يجب ان تكون سنة التخرج من 1980 للسنة الحالية,Graduation Year must be between 1980 and the current year.
+ViewPosition,اعرض الوظيفة,View Position

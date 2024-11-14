@@ -3,11 +3,12 @@ using Recruitment.Data;
 using Recruitment.Dtos;
 using Recruitment.Enums;
 using Recruitment.Helper;
+using Recruitment.Models;
 using System.Web;
 
 namespace Recruitment.Services
 {
-    public class RecruitmentService : IRecruitmentService
+    public class RecruitmentService : IPositionService
     {
 
         private readonly ApplicationDbContext _context;
@@ -16,50 +17,50 @@ namespace Recruitment.Services
             _context = context;
         }
 
-        public async Task<List<decimal>> GetRecruitmentIds()
+        public async Task<List<decimal>> GetPositionIds()
         {
-           return await _context.Recruitments.Select(e => e.ErpDepartmentPositionID).ToListAsync();
+           return await _context.Positions.Select(e => e.ErpDepartmentPositionID).ToListAsync();
         }
-        public string GenerateRecruitmentLink(decimal departmentPositionId)
+        public string GeneratePositionLink(decimal departmentPositionId)
         {
             return HttpUtility.UrlEncode(GenericHelper.EncryptString(departmentPositionId.ToString()));
         }
-        public async Task<Models.Recruitment> GetRecruitmentFromLinkAsync(string link)
+        public async Task<Position> GetPositionFromLinkAsync(string link)
         {
             var decodedLink = GenericHelper.DecryptGeneric(link);
             decimal.TryParse(decodedLink, out var departmentPositionID);
-            return await _context.Recruitments.FirstOrDefaultAsync(e=>e.ErpDepartmentPositionID == departmentPositionID);
+            return await _context.Positions.FirstOrDefaultAsync(e=>e.ErpDepartmentPositionID == departmentPositionID);
         }
-        public async Task HandleRecruitmentsSentFromErp(List<RecruitmentDto> recruitments)
+        public async Task HandlePositionsSentFromErp(List<PositionDto> positions)
         {
-            foreach (var dto in recruitments)
+            foreach (var dto in positions)
             {
                 if (dto.EventType == EventType.Added)
                 {
-                    var recruitmentToAdd = new Models.Recruitment(dto);
-                    _context.Recruitments.Add(recruitmentToAdd);
+                    var positionToAdd = new Position(dto);
+                    _context.Positions.Add(positionToAdd);
                 }
                 else
                 {
-                    var recruitmentToModify = await _context.Recruitments.FindAsync(dto.ErpDepartmentPositionID);
-                    if (recruitmentToModify != null)
+                    var positionToModify = await _context.Positions.FindAsync(dto.ErpDepartmentPositionID);
+                    if (positionToModify != null)
                     {
                         if (dto.EventType == EventType.Modified)
                         {
-                            //recruitmentToModify
-                            _context.Recruitments.Update(recruitmentToModify);
+                            //positionToModify
+                            _context.Positions.Update(positionToModify);
                         }
                         if (dto.EventType == EventType.Deleted)
                         {
-                            _context.Recruitments.Remove(recruitmentToModify);
+                            _context.Positions.Remove(positionToModify);
                         }
                     }
                     else
                     {
                         if (dto.EventType == EventType.Modified)
                         {
-                            var recruitmentToAdd = new Models.Recruitment(dto);
-                            _context.Recruitments.Add(recruitmentToAdd);
+                            var positionToAdd = new Position(dto);
+                            _context.Positions.Add(positionToAdd);
                         }
                     }
                 }
@@ -71,9 +72,9 @@ namespace Recruitment.Services
 
         
 
-        public async Task<List<KeyValue>> GetAvailableRecruitments(string? positionName, decimal? employeCategoryId)
+        public async Task<List<KeyValue>> GetAvailablePositions(string? positionName, decimal? employeCategoryId)
         {
-            var query = _context.Recruitments.Where(e => e.LinkExpiryDate > DateTime.Now);
+            var query = _context.Positions.Where(e => e.LinkExpiryDate > DateTime.Now);
             if (positionName != null)
                 query = query.Where(e => positionName.Contains(e.PositionName));
             if (employeCategoryId != null)
@@ -81,9 +82,9 @@ namespace Recruitment.Services
             return await query.Select(e => new KeyValue { Id =e.ErpDepartmentPositionID, Value = e.PositionName }).ToListAsync();
         }
 
-        public Task<List<KeyValue>> GetAvailableRecruitments()
+        public Task<List<KeyValue>> GetAvailablePositions()
         {
-            return GetAvailableRecruitments(null,null);
+            return GetAvailablePositions(null,null);
         }
 
         public Task<List<KeyValue>> GetAvailableCategories()

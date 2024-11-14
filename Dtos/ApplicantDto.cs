@@ -64,9 +64,9 @@ namespace Recruitment.Dtos
 
         [LocalizedCustomValidation.Spaces(1, "SpacesError")]
         [LocalizedCustomValidation.LocalizedStringLength(20, "MaxLegnthError")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? GenderID { get; set; }
 
         [LocalizedCustomValidation.NotAllowFutureDate("FutureError")]
@@ -83,7 +83,7 @@ namespace Recruitment.Dtos
         [LocalizedCustomValidation.LocalizedRequired("Required")]
         public string Address { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpAreaCityID { get; set; }
 
         [LocalizedCustomValidation.LocalizedStringLength(254, "MaxLegnthError")]
@@ -91,28 +91,28 @@ namespace Recruitment.Dtos
         [LocalizedCustomValidation.LocalizedRegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", "EmailError")]
         public string Email { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpMartialStatusID { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpMilitryStatusID { get; set; }
         public string CvFileName { get; set; }
-        public string CV { get; set; }
+        public string? CV { get; set; }
 
         [LocalizedCustomValidation.LocalizedRequired("Required")]
         [LocalizedCustomValidation.CustomYearRange(1980, "GraduationYearError")]
         public int? GraduationYear { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpUniversityID { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpDoctorDegreeID { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpBranchID { get; set; }
 
-        [LocalizedCustomValidation.LocalizedRequired("Required")]
+        [LocalizedCustomValidation.ValidOption("Required")]
         public decimal? ErpSpecialtyID { get; set; }
 
         public decimal? ErpOtherSpecialtyID { get; set; }

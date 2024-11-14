@@ -132,7 +132,7 @@ namespace Recruitment.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recruitments",
+                name: "Positions",
                 columns: table => new
                 {
                     ErpDepartmentPositionID = table.Column<decimal>(type: "TEXT", nullable: false),
@@ -150,7 +150,7 @@ namespace Recruitment.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recruitments", x => x.ErpDepartmentPositionID);
+                    table.PrimaryKey("PK_Positions", x => x.ErpDepartmentPositionID);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,7 +207,7 @@ namespace Recruitment.Migrations
                 name: "MilitaryStatuses");
 
             migrationBuilder.DropTable(
-                name: "Recruitments");
+                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "Specialities");

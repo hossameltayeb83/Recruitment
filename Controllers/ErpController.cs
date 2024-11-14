@@ -13,23 +13,23 @@ namespace Recruitment.Controllers
     [ApiController]
     public class ErpController : ControllerBase
     {
-        private readonly IRecruitmentService _recruitmentService;
+        private readonly IPositionService _positionRepository;
         private readonly IApplicantService _applicantService;
         private readonly ISetupKeyValueService _setupKeyValueService;
-        public ErpController(IRecruitmentService recruitmentService,
+        public ErpController(IPositionService positionService,
             ISetupKeyValueService setupKeyValueService,
             IApplicantService applicantService)
         {
-            _recruitmentService = recruitmentService;
+            _positionRepository = positionService;
             _setupKeyValueService = setupKeyValueService;
             _applicantService = applicantService;
         }
         [HttpPost]
         public async Task<IActionResult> UpdatePositions([FromBody] List<string> jsonData)
         {
-            List<RecruitmentDto> Dtos = new();
-            jsonData.ForEach(c => { Dtos.Add(JsonSerializer.Deserialize<RecruitmentDto>(c)); });
-            await _recruitmentService.HandleRecruitmentsSentFromErp(Dtos);
+            List<PositionDto> Dtos = new();
+            jsonData.ForEach(c => { Dtos.Add(JsonSerializer.Deserialize<PositionDto>(c)); });
+            await _positionRepository.HandlePositionsSentFromErp(Dtos);
             return Ok();
         }
         [HttpPost]

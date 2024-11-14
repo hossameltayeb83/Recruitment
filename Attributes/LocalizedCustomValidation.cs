@@ -16,6 +16,7 @@ namespace Recruitment.Attributes
             }
         }
 
+
         // Custom Required attribute with localization
         public class LocalizedRequiredAttribute : RequiredAttribute
         {
@@ -80,6 +81,19 @@ namespace Recruitment.Attributes
             public override bool IsValid(object value)
             {
                 return value is DateTime date && date < DateTime.Now;
+            }
+        }
+        public class ValidOption : ValidationAttribute
+        {
+            public ValidOption(string errorMessageKey)
+            {
+                ErrorMessage = Localizer.GetString(errorMessageKey);
+            }
+
+            public override bool IsValid(object value)
+            {
+                decimal? choice = value as decimal?;
+                return choice is not null && choice !=0;
             }
         }
 

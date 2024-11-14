@@ -1,5 +1,32 @@
-﻿<h3>HeaderComponent</h3>
-
+﻿@inject NavigationManager _navManager;
+<div class="col-lg-12">
+    <div class="card mb-3 p-3">
+        <div class="row g-0">
+            <div class="col-md-3 text-center ">
+                <img src="/Logo.webp" class="img-fluid rounded-start m-auto" />
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    @ChildContent
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success btn-md" onclick="history.go(-1)">Back</button>
+                <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("ar"))>Ar</button>
+                <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("en"))>En</button>
+            </div>
+        </div>
+    </div>
+</div>
 @code {
-
+    [Parameter]
+    public string lang { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    [Parameter]
+    public EventCallback<string> LanguageChanged { get; set; }
+    public async Task OnLanguageChanged(string lang)
+    {
+        await  LanguageChanged.InvokeAsync(lang);
+    }
 }

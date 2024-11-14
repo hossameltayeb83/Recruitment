@@ -27,7 +27,7 @@ namespace Recruitment
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-            builder.Services.AddScoped<IRecruitmentService,RecruitmentService>();
+            builder.Services.AddScoped<IPositionService,RecruitmentService>();
             builder.Services.AddScoped<IApplicantService,ApplicantService>();
             builder.Services.AddScoped<ISetupKeyValueService,SetupKeyValueService>();
             var app = builder.Build();
