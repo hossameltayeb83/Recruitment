@@ -42,8 +42,8 @@ namespace Recruitment.Services
                         var pdf= File.ReadAllBytes(path);
                         applicant.CV = Convert.ToBase64String(pdf);
                     }
-                    result.Add(new ApplicantDto(applicant));
                 }
+                    result.Add(new ApplicantDto(applicant));
             }
             return result;
         }

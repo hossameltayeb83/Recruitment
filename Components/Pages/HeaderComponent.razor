@@ -11,7 +11,10 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-success btn-md" onclick="history.go(-1)">Back</button>
+                @if (!IsMainPage)
+                {
+                    <button class="btn btn-success btn-md" onclick="history.go(-1)">Back</button>
+                }
                 <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("ar"))>Ar</button>
                 <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("en"))>En</button>
             </div>
@@ -19,6 +22,8 @@
     </div>
 </div>
 @code {
+    [Parameter]
+    public bool IsMainPage { get; set; }
     [Parameter]
     public string lang { get; set; }
     [Parameter]

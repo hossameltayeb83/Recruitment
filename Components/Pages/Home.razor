@@ -5,8 +5,9 @@
 
 @inject IPositionService _positionService
 @inject NavigationManager _navManager
-<HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang>
-
+@inject IConfiguration _config
+<HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang IsMainPage=true>
+    <h2> @(_config.GetValue<string>(@lang == "ar" ? "TitleAr" : "TitleEn"))</h2>
 </HeaderComponent>
 
 <div class="row g-3">
