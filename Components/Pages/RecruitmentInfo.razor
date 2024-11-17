@@ -1,5 +1,6 @@
 ﻿@page "/{lang}/RecruitmentInfo/{link}"
 @inject IPositionService _positionService
+@inject NavigationManager _navManager
 <HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang>
     <h6 class="card-title text-info fs-4 fw-bold"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class=" text-dark">@Position.PositionName</span> </h6>
     <h5 class="card-title text-info fs-6 fw-bold">
@@ -113,16 +114,13 @@
         await base.OnParametersSetAsync();
     }
 
-    [Inject]
-    private NavigationManager NavigationManager { get; set; }
 
     private void NavigateToRecruitmentForm()
     {
-        NavigationManager.NavigateTo($"/{lang}/Recruitment/{Uri.EscapeDataString(link)}");
+        _navManager.NavigateTo($"/{lang}/Recruitment/{Uri.EscapeDataString(link)}");
     }
-    public async Task ChangeLanguage(string newlang)
+    public void ChangeLanguage(string newlang)
     {
-        lang = newlang;
-        StateHasChanged();
+        _navManager.NavigateTo($"/{newlang}/RecruitmentInfo/{Uri.EscapeDataString(link)}", true);
     }
 }

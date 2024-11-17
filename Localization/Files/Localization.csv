@@ -80,3 +80,6 @@ PhoneNumberError,يجب ان يحتوي التليفون علي 11 رقم فاك
 EmailError,ادخل بريد الكتروني صحيح,Please enter a valid email address.
 GraduationYearError,يجب ان تكون سنة التخرج من 1980 للسنة الحالية,Graduation Year must be between 1980 and the current year.
 ViewPosition,اعرض الوظيفة,View Position
+Arabic,عربي,Arabic
+English,انجليزي,English
+Back,رجوع,Back

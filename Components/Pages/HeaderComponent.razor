@@ -13,10 +13,9 @@
             <div class="col-md-2">
                 @if (!IsMainPage)
                 {
-                    <button class="btn btn-success btn-md" onclick="history.go(-1)">Back</button>
+                    <button class="btn btn-success btn-md" onclick="history.go(-1)">@Localizer.GetUi("Back")</button>
                 }
-                <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("ar"))>Ar</button>
-                <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged("en"))>En</button>
+                <button class="btn btn-success btn-md" @onclick=@(()=>OnLanguageChanged())>@(lang == "en" ? @Localizer.GetUi("Arabic") : @Localizer.GetUi("English"))</button>
             </div>
         </div>
     </div>
@@ -30,8 +29,9 @@
     public RenderFragment ChildContent { get; set; }
     [Parameter]
     public EventCallback<string> LanguageChanged { get; set; }
-    public async Task OnLanguageChanged(string lang)
+    public async Task OnLanguageChanged()
     {
-        await  LanguageChanged.InvokeAsync(lang);
+        var language = lang == "en" ? "ar" : "en";
+        await LanguageChanged.InvokeAsync(language);
     }
 }

@@ -11,25 +11,6 @@
         <span class=" text-dark">@Position.OrganizationName</span>
     </h5>
 </HeaderComponent>
-@* <div class="card mb-3">
-    <div class="row g-0">
-        <div class="col-md-3 text-center ">
-            <img src="/Logo.webp" class="img-fluid rounded-start m-auto" alt="Logo" />
-        </div>
-        <div class="col-md-9">
-            <div class="card-body">
-                <h5 class="card-title text-primary fw-bold m-0 mb-2 fs-5"><span style="display: inline-flex">@Localizer.GetUi("PositionName"): </span><span class="fs-5 fw-bold text-dark">@Position.PositionName</span> </h5>
-                <h6 class="card-text text-info m-0 p-0">@Localizer.GetUi("PositionSummary"): </h6>
-                @if (!string.IsNullOrEmpty(Position.PositionSummary))
-                {
-
-                    <p>@Position.PositionSummary.Replace(Environment.NewLine, "<br>")</p>
-                }
-            </div>
-        </div>
-    </div>
-</div> *@
-
 <div class="d-flex justify-content-center">
     <div class="col-md-10 m-auto">
         <div class="card m-0 pt-0">
@@ -401,7 +382,7 @@
     public List<KeyValue> OtherSpecialities { get; set; }
     public List<KeyValue> AreaCities { get; set; }
     public List<KeyValue> Universities { get; set; }
-
+    public IBrowserFile Cv { get; set; }
     [Parameter]
     public string link { get; set; }
     [Parameter]
@@ -409,27 +390,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // if (Position.IsDoctor)
-        // {
-        //     BaseApplicant = (DoctorApplicant)BaseApplicant;
-        //     editContext = new(BaseApplicant);
-
-        // }
-        // else
-        // {
-        //     BaseApplicant = (NormalApplicant)BaseApplicant;
-        //     editContext = new(BaseApplicant);
-        // }
         Applicant ??= new();
         editContext = new(Applicant);
         await LoadPositionDataAsync();
-    }
-    private void HandleValidation(object? sender,
-        ValidationRequestedEventArgs args)
-    {
-        messageStore?.Clear();
-
-        // Custom validation logic
     }
     private async Task LoadPositionDataAsync()
     {
@@ -450,42 +413,14 @@
         MartialStatuses = await _setupService.GetKeyValueList<MartialStatus>(lang);
         AreaCities = await _setupService.GetKeyValueList<AreaCity>(lang);
     }
-    private async Task LoadCV(InputFileChangeEventArgs e)
+    private void LoadCV(InputFileChangeEventArgs e)
     {
-        try
-        {
-            var file = e.File;
-            var extension = Path.GetExtension(file.Name);
-            var fileName = Guid.NewGuid().ToString()+extension;
-            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot","CVs",fileName); 
-
-            await using FileStream fs = new(path, FileMode.Create);
-            await file.OpenReadStream(1024 *2000).CopyToAsync(fs);
-            Applicant.CvFileName = fileName;
-        }
-        catch (Exception ex)
-        {
-
-        }
+        Cv = e.File;
     }
-    public async Task ChangeLanguage(string newlang)
+    public void ChangeLanguage(string newlang)
     {
-        lang = newlang;
-        StateHasChanged();
+        _navManager.NavigateTo($"/{newlang}/Recruitment/{Uri.EscapeDataString(link)}",true);
     }
-    // private async Task Send()
-    // {
-    //     try
-    //     {
-
-    //         // await _applicantService.SaveApplicant(Applicant);
-    //         _czAlert.ShowSuccess("successs");
-    //     }
-    //     catch
-    //     {
-    //         _czAlert.ShowDanger("An Error Occurred");
-    //     }
-    // }
     private async Task Send()
     {
         bool valid=true;
@@ -518,6 +453,16 @@
         {
             try
             {
+                if(Cv != null)
+                {
+                    var extension = Path.GetExtension(Cv.Name);
+                    var fileName = Guid.NewGuid().ToString() + extension;
+                    var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "CVs", fileName);
+
+                    await using FileStream fs = new(path, FileMode.Create);
+                    await Cv.OpenReadStream(1024 * 2000).CopyToAsync(fs);
+                    Applicant.CvFileName = fileName;
+                }
                 await _applicantService.SaveApplicant(Applicant);
                 _navManager.NavigateTo($"/{lang}/Success");
 

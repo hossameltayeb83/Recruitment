@@ -1,8 +1,7 @@
 ﻿@page "/ar"
 @page "/en"
 @page "/"
-
-
+@using System.Globalization;
 @inject IPositionService _positionService
 @inject NavigationManager _navManager
 @inject IConfiguration _config
@@ -27,29 +26,23 @@
     }
 </div>
 @code {
-    public string JobSearch { get; set; }
-    public List<KeyValue> Categories { get; set; }
     public List<KeyValue> Positions { get; set; }
-    public string? lang { get; set; }
+    public string lang { get; set; }
     protected async override Task OnInitializedAsync()
     {
-        lang = _navManager.Uri.Contains("en") ? "en" : "ar";
+
+        lang = CultureInfo.CurrentCulture.Name == "ar-EG" ? "ar" : "en";
         Positions = await _positionService.GetAvailablePositions();
         await base.OnInitializedAsync();
     }
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-    }
     public void ViewPosition(decimal departmentPositionId)
     {
-        
+
         var link = _positionService.GeneratePositionLink(departmentPositionId);
         _navManager.NavigateTo($"/{lang}/RecruitmentInfo/{link}");
     }
-    public async Task ChangeLanguage(string newlang)
+    public void ChangeLanguage(string newlang)
     {
-        lang = newlang;
-        StateHasChanged();
+        _navManager.NavigateTo($"/{newlang}", true);
     }
 }

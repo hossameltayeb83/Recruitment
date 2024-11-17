@@ -28,9 +28,6 @@ namespace Recruitment.Localization
                         context.Request.Headers.TryGetValue("UserCulture", out var userCultures);
                         if (userCultures.Any())
                             userCulture = userCultures.First();
-                        Console.WriteLine($"Request Path: {path}");
-                        Console.WriteLine($"User Culture: {userCulture}");
-                        Console.WriteLine($"User lang: {lang}");
                         
                         context.Response.Cookies.Append("UserCulture", userCulture, new CookieOptions
                         {

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Recruitment.Services
 {
-    public class RecruitmentService(ApplicationDbContext context) : IPositionService
+    public class PositionService(ApplicationDbContext context) : IPositionService
     {
         public async Task<List<decimal>> GetPositionIds()
         {

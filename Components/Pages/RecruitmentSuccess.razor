@@ -1,5 +1,6 @@
 ﻿@page "/{lang}/Success"
-<HeaderComponent lang=@lang></HeaderComponent>
+@inject NavigationManager _navManager
+<HeaderComponent LanguageChanged="ChangeLanguage" lang=@lang></HeaderComponent>
 <div class="card" style="width: 25rem; margin:40px auto;">
   <div class="card-body text-center">
         <h5 class="card-title text-success">@Localizer.GetUi("Send")</h5>
@@ -9,4 +10,8 @@
 @code {
     [Parameter]
     public string lang { get; set; }
+    public void ChangeLanguage(string newlang)
+    {
+        _navManager.NavigateTo($"/{newlang}/Success", true);
+    }
 }
